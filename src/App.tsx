@@ -13,7 +13,10 @@ import ProductDetail from './components/ProductDetail';
 import OrdersPage from './components/OrdersPage';
 import Cart from './components/Cart';
 import AuthModal from './components/AuthModal';
-import CheckoutModal from './components/CheckoutModal';
+import EnhancedCheckoutModal from './components/EnhancedCheckoutModal';
+import SellerLogin from './components/seller/SellerLogin';
+import SellerDashboard from './components/seller/SellerDashboard';
+import { Seller } from './services/sellerService';
 import Footer from './components/Footer';
 import AboutUs from './components/pages/AboutUs';
 import SizeGuide from './components/pages/SizeGuide';
@@ -29,8 +32,9 @@ function App() {
   const { products } = useProducts();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<User | null>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'product' | 'orders' | 'about' | 'size-guide' | 'shipping' | 'privacy' | 'terms' | 'faq' | 'admin'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'product' | 'orders' | 'about' | 'size-guide' | 'shipping' | 'privacy' | 'terms' | 'faq' | 'admin' | 'seller'>('home');
   const [admin, setAdmin] = useState<Admin | null>(null);
+  const [seller, setSeller] = useState<Seller | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -222,7 +226,7 @@ function App() {
       )}
 
       {isCheckoutOpen && user && (
-        <CheckoutModal
+        <EnhancedCheckoutModal
           user={user}
           cartItems={cartItems}
           totalPrice={getTotalPrice()}
@@ -243,7 +247,15 @@ function App() {
         <AdminDashboard admin={admin} onLogout={() => { setAdmin(null); setCurrentView('home'); }} />
       )}
 
-      {currentView !== 'admin' && (
+      {currentView === 'seller' && !seller && (
+        <SellerLogin onClose={() => setCurrentView('home')} onLoginSuccess={(sellerData) => setSeller(sellerData)} />
+      )}
+
+      {currentView === 'seller' && seller && (
+        <SellerDashboard seller={seller} onLogout={() => { setSeller(null); setCurrentView('home'); }} />
+      )}
+
+      {currentView !== 'admin' && currentView !== 'seller' && (
         <Footer onNavigate={(page) => { window.scrollTo({ top: 0, behavior: 'smooth' }); setCurrentView(page as any); }} />
       )}
     </div>

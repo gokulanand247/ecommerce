@@ -12,6 +12,7 @@ export interface Product {
   colors: string[];
   stock_quantity: number;
   is_active: boolean;
+  seller_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -49,6 +50,9 @@ export interface Order {
   user_id: string;
   address_id: string;
   total_amount: number;
+  subtotal?: number;
+  discount_amount?: number;
+  coupon_id?: string | null;
   status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'out_for_delivery' | 'delivered' | 'cancelled' | 'returned';
   payment_id: string | null;
   payment_status: 'pending' | 'completed' | 'failed' | 'refunded';

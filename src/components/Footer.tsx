@@ -132,6 +132,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <button onClick={() => onNavigate('privacy')} className="text-gray-400 hover:text-pink-400 text-sm transition-colors">
                 Cookie Policy
               </button>
+              <button onClick={() => onNavigate('seller')} className="text-gray-400 hover:text-pink-400 text-sm transition-colors font-semibold">
+                Seller
+              </button>
               <button onClick={() => onNavigate('admin')} className="text-gray-400 hover:text-pink-400 text-sm transition-colors font-semibold">
                 Admin
               </button>

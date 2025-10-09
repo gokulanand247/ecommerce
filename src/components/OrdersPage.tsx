@@ -141,7 +141,17 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-2xl font-bold text-pink-600">₹{order.total_amount}</p>
+                    <div className="flex items-center space-x-2">
+                      <p className="text-2xl font-bold text-pink-600">₹{order.total_amount}</p>
+                      {order.discount_amount > 0 && (
+                        <span className="text-sm text-gray-500 line-through">₹{order.subtotal}</span>
+                      )}
+                    </div>
+                    {order.discount_amount > 0 && (
+                      <p className="text-sm text-green-600">
+                        You saved ₹{order.discount_amount}
+                      </p>
+                    )}
                     {order.expected_delivery && (
                       <p className="text-sm text-gray-600">
                         Expected delivery: {new Date(order.expected_delivery).toLocaleDateString('en-IN')}

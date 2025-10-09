@@ -116,12 +116,13 @@ export const getAllOrders = async (): Promise<any[]> => {
         *,
         users(name, email, phone),
         addresses(*),
+        coupons(code, discount_type, discount_value),
         order_items(
           *,
-          products(name, image_url)
+          products(name, image_url, seller_id)
         )
       `)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false});
 
     if (error) throw error;
     return data || [];

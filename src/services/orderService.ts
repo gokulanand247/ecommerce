@@ -5,7 +5,10 @@ export const createOrder = async (
   userId: string,
   cartItems: CartItem[],
   address: Address,
-  totalAmount: number
+  totalAmount: number,
+  couponId?: string,
+  discountAmount?: number,
+  subtotal?: number
 ): Promise<Order> => {
   try {
     // Create the order
@@ -16,6 +19,9 @@ export const createOrder = async (
           user_id: userId,
           address_id: address.id,
           total_amount: totalAmount,
+          subtotal: subtotal || totalAmount,
+          discount_amount: discountAmount || 0,
+          coupon_id: couponId || null,
           status: 'pending',
           payment_status: 'pending',
           expected_delivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] // 7 days from now
