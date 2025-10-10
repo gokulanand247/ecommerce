@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut, Package, ShoppingBag, Plus, Edit, Trash2, Image as ImageIcon, X, Save } from 'lucide-react';
+import { LogOut, Package, ShoppingBag, Plus, Edit, Trash2, Image as ImageIcon, X, Save, Store, Tag, Zap } from 'lucide-react';
 import { Admin, createProduct, updateProduct, deleteProduct, uploadProductImage } from '../../services/adminService';
 import { useProducts } from '../../hooks/useSupabase';
 import OrderManagement from './OrderManagement';
+import SellerManagement from './SellerManagement';
+import CouponManagement from './CouponManagement';
+import DealsManagement from './DealsManagement';
 
 interface AdminDashboardProps {
   admin: Admin;
   onLogout: () => void;
 }
 
-type TabType = 'products' | 'orders';
+type TabType = 'products' | 'orders' | 'sellers' | 'coupons' | 'deals';
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
   const { products, refetch } = useProducts();
@@ -193,10 +196,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
       {/* Tabs */}
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+          <div className="flex space-x-8 overflow-x-auto">
             <button
               onClick={() => setActiveTab('products')}
-              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'products'
                   ? 'border-pink-600 text-pink-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -207,7 +210,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
             </button>
             <button
               onClick={() => setActiveTab('orders')}
-              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'orders'
                   ? 'border-pink-600 text-pink-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
@@ -215,6 +218,39 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
             >
               <ShoppingBag className="h-5 w-5" />
               <span className="font-medium">Orders</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('sellers')}
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'sellers'
+                  ? 'border-pink-600 text-pink-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Store className="h-5 w-5" />
+              <span className="font-medium">Sellers</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('coupons')}
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'coupons'
+                  ? 'border-pink-600 text-pink-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Tag className="h-5 w-5" />
+              <span className="font-medium">Coupons</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('deals')}
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'deals'
+                  ? 'border-pink-600 text-pink-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Zap className="h-5 w-5" />
+              <span className="font-medium">Deals</span>
             </button>
           </div>
         </div>
@@ -497,6 +533,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
 
         {activeTab === 'orders' && (
           <OrderManagement />
+        )}
+
+        {activeTab === 'sellers' && (
+          <SellerManagement />
+        )}
+
+        {activeTab === 'coupons' && (
+          <CouponManagement />
+        )}
+
+        {activeTab === 'deals' && (
+          <DealsManagement />
         )}
       </div>
     </div>

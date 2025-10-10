@@ -219,8 +219,21 @@ const OrderManagement: React.FC = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span>₹{selectedOrder.total_amount}</span>
+                  <span>₹{selectedOrder.subtotal || selectedOrder.total_amount}</span>
                 </div>
+                {selectedOrder.discount_amount > 0 && (
+                  <>
+                    <div className="flex justify-between text-green-600">
+                      <span>Discount:</span>
+                      <span>-₹{selectedOrder.discount_amount}</span>
+                    </div>
+                    {selectedOrder.coupons && (
+                      <p className="text-xs text-gray-500">
+                        Coupon: {selectedOrder.coupons.code}
+                      </p>
+                    )}
+                  </>
+                )}
                 <div className="flex justify-between font-semibold text-lg border-t pt-2">
                   <span>Total:</span>
                   <span className="text-pink-600">₹{selectedOrder.total_amount}</span>

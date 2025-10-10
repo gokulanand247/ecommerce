@@ -103,6 +103,26 @@ export const updateOrderStatus = async (
       .eq('id', orderId);
 
     if (error) throw error;
+
+    const statusMessages: Record<string, string> = {
+      'pending': 'Order is pending confirmation',
+      'confirmed': 'Order confirmed and being prepared',
+      'processing': 'Order is being processed',
+      'shipped': 'Order has been shipped',
+      'out_for_delivery': 'Order is out for delivery',
+      'delivered': 'Order has been delivered',
+      'cancelled': 'Order has been cancelled',
+      'returned': 'Order has been returned'
+    };
+
+    await supabase.from('order_tracking').insert([
+      {
+        order_id: orderId,
+        status: status,
+        message: statusMessages[status] || `Order status updated to ${status}`,
+        location: 'Processing Center'
+      }
+    ]);
   } catch (error) {
     throw error;
   }
