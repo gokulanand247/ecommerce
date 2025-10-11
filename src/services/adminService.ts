@@ -29,14 +29,20 @@ export const adminLogin = async (username: string, password: string): Promise<Ad
 export const uploadProductImage = async (file: File): Promise<string> => {
   try {
     const fileExt = file.name.split('.').pop();
-    const fileName = `${Math.random()}.${fileExt}`;
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
     const filePath = `products/${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from('product-images')
-      .upload(filePath, file);
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
 
-    if (uploadError) throw uploadError;
+    if (uploadError) {
+      console.error('Upload error:', uploadError);
+      throw uploadError;
+    }
 
     const { data } = supabase.storage
       .from('product-images')
@@ -44,30 +50,44 @@ export const uploadProductImage = async (file: File): Promise<string> => {
 
     return data.publicUrl;
   } catch (error) {
+    console.error('Image upload failed:', error);
     throw error;
   }
 };
 
 export const createProduct = async (productData: any): Promise<any> => {
   try {
+    const productToInsert = {
+      ...productData,
+      images: productData.image_url ? [productData.image_url] : (productData.images || []),
+      stock_quantity: productData.stock || productData.stock_quantity || 0
+    };
+
     const { data, error } = await supabase
       .from('products')
-      .insert([productData])
+      .insert([productToInsert])
       .select()
       .single();
 
     if (error) throw error;
     return data;
   } catch (error) {
+    console.error('Error creating product:', error);
     throw error;
   }
 };
 
 export const updateProduct = async (productId: string, productData: any): Promise<any> => {
   try {
+    const productToUpdate = {
+      ...productData,
+      images: productData.image_url ? [productData.image_url] : (productData.images || []),
+      stock_quantity: productData.stock || productData.stock_quantity || 0
+    };
+
     const { data, error } = await supabase
       .from('products')
-      .update(productData)
+      .update(productToUpdate)
       .eq('id', productId)
       .select()
       .single();
@@ -75,6 +95,7 @@ export const updateProduct = async (productId: string, productData: any): Promis
     if (error) throw error;
     return data;
   } catch (error) {
+    console.error('Error updating product:', error);
     throw error;
   }
 };

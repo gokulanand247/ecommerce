@@ -7,35 +7,35 @@ export const useProducts = (category?: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        let query = supabase
-          .from('products')
-          .select('*')
-          .eq('is_active', true)
-          .order('created_at', { ascending: false });
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      let query = supabase
+        .from('products')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
 
-        if (category && category !== 'all') {
-          query = query.eq('category', category);
-        }
-
-        const { data, error } = await query;
-
-        if (error) throw error;
-        setProducts(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
+      if (category && category !== 'all') {
+        query = query.eq('category', category);
       }
-    };
 
+      const { data, error } = await query;
+
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProducts();
   }, [category]);
 
-  return { products, loading, error };
+  return { products, loading, error, refetch: fetchProducts };
 };
 
 export const useProduct = (id: string) => {

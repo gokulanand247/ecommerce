@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Image as ImageIcon, X, Save } from 'lucide-react';
 import { getSellerProducts } from '../../services/sellerService';
-import { createProduct, updateProduct, deleteProduct, uploadProductImage } from '../../services/adminService';
+import { uploadProductImage } from '../../services/adminService';
+import { supabase } from '../../lib/supabase';
 
 interface SellerProductsProps {
   sellerId: string;
@@ -117,10 +118,19 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
       };
 
       if (editingProduct) {
-        await updateProduct(editingProduct.id, productData);
+        const { error } = await supabase
+          .from('products')
+          .update(productData)
+          .eq('id', editingProduct.id);
+
+        if (error) throw error;
         alert('Product updated successfully!');
       } else {
-        await createProduct(productData);
+        const { error } = await supabase
+          .from('products')
+          .insert([productData]);
+
+        if (error) throw error;
         alert('Product created successfully!');
       }
 
@@ -155,7 +165,12 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      await deleteProduct(productId);
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', productId);
+
+      if (error) throw error;
       alert('Product deleted successfully!');
       fetchProducts();
     } catch (error) {

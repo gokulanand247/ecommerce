@@ -14,20 +14,12 @@ const TodaysDealSection: React.FC = () => {
 
   const fetchDeals = async () => {
     try {
-      const { data, error } = await supabase
-        .from('todays_deals')
-        .select(`
-          *,
-          product:products(*)
-        `)
-        .eq('is_active', true)
-        .gte('ends_at', new Date().toISOString())
-        .lte('starts_at', new Date().toISOString())
-        .order('created_at', { ascending: false })
-        .limit(4);
+      const { data, error } = await supabase.rpc('get_todays_active_deals');
 
       if (error) throw error;
-      setDeals(data || []);
+
+      const dealsArray = data || [];
+      setDeals(dealsArray.slice(0, 4));
     } catch (error) {
       console.error('Error fetching deals:', error);
     } finally {

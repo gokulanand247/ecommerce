@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LogOut, Package, ShoppingBag, Plus, Edit, Trash2, Image as ImageIcon, X, Save, Store, Tag, Zap } from 'lucide-react';
-import { Admin, createProduct, updateProduct, deleteProduct, uploadProductImage } from '../../services/adminService';
+import { Admin, uploadProductImage } from '../../services/adminService';
+import { supabase } from '../../lib/supabase';
 import { useProducts } from '../../hooks/useSupabase';
 import OrderManagement from './OrderManagement';
 import SellerManagement from './SellerManagement';
@@ -107,10 +108,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
       };
 
       if (editingProduct) {
-        await updateProduct(editingProduct.id, productData);
+        const { error } = await supabase
+          .from('products')
+          .update(productData)
+          .eq('id', editingProduct.id);
+
+        if (error) throw error;
         alert('Product updated successfully!');
       } else {
-        await createProduct(productData);
+        const { error } = await supabase
+          .from('products')
+          .insert([productData]);
+
+        if (error) throw error;
         alert('Product created successfully!');
       }
 
@@ -145,7 +155,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
 
     try {
-      await deleteProduct(productId);
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', productId);
+
+      if (error) throw error;
       alert('Product deleted successfully!');
       refetch();
     } catch (error) {

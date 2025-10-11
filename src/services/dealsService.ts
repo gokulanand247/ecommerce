@@ -4,11 +4,14 @@ export interface TodaysDeal {
   id: string;
   product_id: string;
   discount_percentage: number;
-  valid_from: string;
-  valid_until: string;
+  deal_price: number;
+  original_price: number;
+  starts_at: string;
+  ends_at: string;
   is_active: boolean;
   sort_order: number;
   created_at: string;
+  product?: any;
 }
 
 export const getActiveDeals = async (): Promise<any[]> => {
@@ -17,7 +20,7 @@ export const getActiveDeals = async (): Promise<any[]> => {
       .rpc('get_todays_active_deals');
 
     if (error) throw error;
-    return data || [];
+    return Array.isArray(data) ? data : (data ? [data] : []);
   } catch (error) {
     throw error;
   }
@@ -47,11 +50,30 @@ export const getAllDeals = async (): Promise<any[]> => {
   }
 };
 
-export const createDeal = async (dealData: Partial<TodaysDeal>): Promise<TodaysDeal> => {
+export const createDeal = async (dealData: any): Promise<TodaysDeal> => {
   try {
-    const { data, error } = await supabase
+    const productData = await supabase
+      .from('products')
+      .select('price, mrp')
+      .eq('id', dealData.product_id)
+      .single();
+
+    if (productData.error) throw productData.error;
+
+    const deal = {
+      product_id: dealData.product_id,
+      discount_percentage: dealData.discount_percentage,
+      deal_price: dealData.deal_price || (productData.data.price * (100 - dealData.discount_percentage) / 100),
+      original_price: dealData.original_price || productData.data.mrp,
+      starts_at: dealData.starts_at || new Date().toISOString(),
+      ends_at: dealData.ends_at,
+      is_active: dealData.is_active !== undefined ? dealData.is_active : true,
+      sort_order: dealData.sort_order || 0
+    };
+
+    const { data, error} = await supabase
       .from('todays_deals')
-      .insert([dealData])
+      .insert([deal])
       .select()
       .single();
 
