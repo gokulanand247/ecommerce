@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://vemqwilcxnnzowyeasqu.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXF3aWxjeG5uem93eWVhc3F1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMTUzMDIsImV4cCI6MjA3NDc5MTMwMn0.jOpEpKZJWmSPbCO323-vYZi2ffIbHp6vB-kaDM9u13Q';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://thjdmylumbbplhhrwvtx.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoamRteWx1bWJicGxoaHJ3dnR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDU2NTEsImV4cCI6MjA3NTc4MTY1MX0.qASV4kMeKOPGb1_qmZygLDsJHZn8A_LPTD9Rw1SfYe8';
 
 console.log('Connected to Supabase:', supabaseUrl);
 
