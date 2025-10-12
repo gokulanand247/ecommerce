@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Flame } from 'lucide-react';
-import { TodaysDeal } from '../types';
+import { TodaysDeal, Product } from '../types';
 import { supabase } from '../lib/supabase';
 import ProductCard from './ProductCard';
 
-const TodaysDealSection: React.FC = () => {
+interface TodaysDealSectionProps {
+  onAddToCart: (product: Product) => void;
+  onProductClick: (productId: string) => void;
+}
+
+const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onProductClick }) => {
   const [deals, setDeals] = useState<TodaysDeal[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -85,7 +90,7 @@ const TodaysDealSection: React.FC = () => {
           Limited time offers - Grab them before they're gone!
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {deals.map((deal) => {
             if (!deal.product) return null;
 
@@ -102,7 +107,7 @@ const TodaysDealSection: React.FC = () => {
                   <Clock className="h-4 w-4" />
                   <span>{timeRemaining[deal.id] || 'Calculating...'}</span>
                 </div>
-                <ProductCard product={dealProduct} />
+                <ProductCard product={dealProduct} onAddToCart={onAddToCart} onProductClick={onProductClick} />
               </div>
             );
           })}

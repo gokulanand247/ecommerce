@@ -10,6 +10,7 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import { Admin } from './services/adminService';
 import ProductGrid from './components/ProductGrid';
 import ProductDetail from './components/ProductDetail';
+import ProductFilters from './components/ProductFilters';
 import OrdersPage from './components/OrdersPage';
 import Cart from './components/Cart';
 import AuthModal from './components/AuthModal';
@@ -40,6 +41,9 @@ function App() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const [sortBy, setSortBy] = useState<string>('newest');
+  const [minRating, setMinRating] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   // Load user and cart data
@@ -106,9 +110,43 @@ function App() {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory);
+  const categories = [
+    { id: 'sarees', name: 'Sarees' },
+    { id: 'western', name: 'Western Wear' },
+    { id: 'ethnic', name: 'Ethnic Wear' },
+    { id: 'party', name: 'Party Wear' },
+    { id: 'casual', name: 'Casual Wear' }
+  ];
+
+  const handleResetFilters = () => {
+    setSelectedCategory('all');
+    setPriceRange([0, 10000]);
+    setSortBy('newest');
+    setMinRating(0);
+  };
+
+  const filteredProducts = products
+    .filter(product => {
+      if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
+      if (product.price < priceRange[0] || product.price > priceRange[1]) return false;
+      if (product.average_rating && product.average_rating < minRating) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'price_low':
+          return a.price - b.price;
+        case 'price_high':
+          return b.price - a.price;
+        case 'rating':
+          return (b.average_rating || 0) - (a.average_rating || 0);
+        case 'discount':
+          return b.discount - a.discount;
+        case 'newest':
+        default:
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+    });
 
   const handleProductClick = (productId: string) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -155,7 +193,10 @@ function App() {
         <main>
           <Banner />
           <OffersSection />
-          <TodaysDealSection />
+          <TodaysDealSection
+            onAddToCart={addToCart}
+            onProductClick={handleProductClick}
+          />
           <FeaturedProducts
             onAddToCart={addToCart}
             onProductClick={handleProductClick}
@@ -164,6 +205,20 @@ function App() {
             selectedCategory={selectedCategory}
             onCategoryChange={setSelectedCategory}
           />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ProductFilters
+              categories={categories}
+              selectedCategory={selectedCategory}
+              priceRange={priceRange}
+              sortBy={sortBy}
+              minRating={minRating}
+              onCategoryChange={setSelectedCategory}
+              onPriceRangeChange={setPriceRange}
+              onSortChange={setSortBy}
+              onRatingChange={setMinRating}
+              onReset={handleResetFilters}
+            />
+          </div>
           <ProductGrid
             products={filteredProducts}
             onAddToCart={addToCart}
@@ -177,6 +232,7 @@ function App() {
           productId={selectedProductId}
           onAddToCart={addToCart}
           onBack={() => setCurrentView('home')}
+          user={user}
         />
       )}
 

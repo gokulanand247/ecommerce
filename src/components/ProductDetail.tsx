@@ -1,20 +1,69 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Star, Clock, ShoppingCart, Truck, Shield, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Star, Clock, ShoppingCart, Truck, Shield, RotateCcw, MessageSquare } from 'lucide-react';
 import { useProduct, useReviews } from '../hooks/useSupabase';
-import { Product } from '../types';
+import { Product, User } from '../types';
+import ReviewForm from './ReviewForm';
+import { supabase } from '../lib/supabase';
 
 interface ProductDetailProps {
   productId: string;
   onAddToCart: (product: Product) => void;
   onBack: () => void;
+  user?: User | null;
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, onBack }) => {
+const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, onBack, user }) => {
   const { product, loading: productLoading } = useProduct(productId);
-  const { reviews, loading: reviewsLoading } = useReviews(productId);
+  const { reviews, loading: reviewsLoading, refetch: refetchReviews } = useReviews(productId);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [seller, setSeller] = useState<any>(null);
+
+  useEffect(() => {
+    if (product?.seller_id) {
+      fetchSeller(product.seller_id);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('reviews-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'reviews',
+          filter: `product_id=eq.${productId}`
+        },
+        () => {
+          refetchReviews();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [productId, refetchReviews]);
+
+  const fetchSeller = async (sellerId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('sellers')
+        .select('shop_name')
+        .eq('id', sellerId)
+        .maybeSingle();
+
+      if (!error && data) {
+        setSeller(data);
+      }
+    } catch (error) {
+      console.error('Error fetching seller:', error);
+    }
+  };
 
   const handleBack = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -149,6 +198,11 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
               <p className="text-gray-600">{product.description}</p>
+              {seller && (
+                <p className="text-sm text-gray-500 mt-2">
+                  <span className="font-medium">Seller:</span> {seller.shop_name}
+                </p>
+              )}
             </div>
 
             {/* Rating */}
@@ -262,7 +316,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
 
         {/* Reviews Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
+            {user && (
+              <button
+                onClick={() => setShowReviewForm(true)}
+                className="flex items-center space-x-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                <MessageSquare className="h-4 w-4" />
+                <span>Write a Review</span>
+              </button>
+            )}
+          </div>
           {reviewsLoading ? (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600 mx-auto"></div>
@@ -318,6 +383,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
           )}
         </div>
       </div>
+
+      {showReviewForm && user && (
+        <ReviewForm
+          productId={productId}
+          userId={user.id}
+          onReviewAdded={refetchReviews}
+          onClose={() => setShowReviewForm(false)}
+        />
+      )}
     </div>
   );
 };

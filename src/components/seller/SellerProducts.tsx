@@ -219,8 +219,9 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
       </div>
 
       {showProductForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg max-w-4xl w-full my-8">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen p-4">
+            <div className="bg-white rounded-lg max-w-4xl w-full my-8">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-2xl font-bold text-gray-900">
@@ -415,6 +416,7 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
                 </div>
               </form>
             </div>
+            </div>
           </div>
         </div>
       )}
@@ -424,7 +426,7 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
           <p className="text-gray-500 mb-4">No products yet. Add your first product to get started!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {products.map(product => (
             <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
               <img

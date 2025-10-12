@@ -13,6 +13,7 @@ export interface Product {
   stock_quantity: number;
   is_active: boolean;
   seller_id: string | null;
+  average_rating?: number;
   created_at: string;
   updated_at: string;
 }
