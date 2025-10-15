@@ -197,7 +197,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-gray-600">{product.description}</p>
+              <p className="text-gray-600">
+                {product.description}
+                {product.stock <= 3 && product.stock > 0 && (
+                  <span className="text-red-600 font-semibold ml-2">
+                    Only {product.stock} left in stock!
+                  </span>
+                )}
+                {product.stock === 0 && (
+                  <span className="text-red-600 font-semibold ml-2">
+                    Out of Stock
+                  </span>
+                )}
+              </p>
               {seller && (
                 <p className="text-sm text-gray-500 mt-2">
                   <span className="font-medium">Seller:</span> {seller.shop_name}

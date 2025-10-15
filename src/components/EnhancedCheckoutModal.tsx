@@ -4,6 +4,7 @@ import { User, CartItem, Address } from '../types';
 import { useAddresses } from '../hooks/useSupabase';
 import { createOrder, updateOrderPayment } from '../services/orderService';
 import { applyCoupon } from '../services/couponService';
+import { showToast } from './Toast';
 
 interface CheckoutModalProps {
   user: User;
@@ -58,7 +59,7 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
         setAppliedCoupon(result);
         setDiscountAmount(result.discount_amount);
         setError('');
-        alert('Coupon applied successfully!');
+        showToast('Coupon applied successfully!', 'success');
       } else {
         setError(result.message);
         setAppliedCoupon(null);
@@ -157,7 +158,7 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
           try {
             await updateOrderPayment(order.id, response.razorpay_payment_id, 'completed');
             setIsProcessing(false);
-            alert('Payment successful! Your order has been placed.');
+            showToast('Payment successful! Your order has been placed.', 'success');
             onOrderComplete();
           } catch (err) {
             setError('Payment verification failed. Please contact support.');

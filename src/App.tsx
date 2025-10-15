@@ -25,6 +25,7 @@ import ShippingInfo from './components/pages/ShippingInfo';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
 import TermsConditions from './components/pages/TermsConditions';
 import FAQ from './components/pages/FAQ';
+import { ToastContainer, showToast } from './components/Toast';
 import { Product, CartItem, User } from './types';
 import { useProducts } from './hooks/useSupabase';
 import { getCurrentUser, signOut } from './services/authService';
@@ -290,7 +291,7 @@ function App() {
           onOrderComplete={() => {
             setCartItems([]);
             setIsCheckoutOpen(false);
-            alert('Order placed successfully!');
+            showToast('Order placed successfully!', 'success');
           }}
         />
       )}
@@ -314,6 +315,8 @@ function App() {
       {currentView !== 'admin' && currentView !== 'seller' && (
         <Footer onNavigate={(page) => { window.scrollTo({ top: 0, behavior: 'smooth' }); setCurrentView(page as any); }} />
       )}
+
+      <ToastContainer />
     </div>
   );
 }

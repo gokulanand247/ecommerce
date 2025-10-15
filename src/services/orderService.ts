@@ -11,7 +11,14 @@ export const createOrder = async (
   subtotal?: number
 ): Promise<Order> => {
   try {
-    // Create the order
+    const items = cartItems.map(item => ({
+      product_id: item.id,
+      quantity: item.quantity,
+      price: item.price,
+      name: item.name,
+      image_url: item.image
+    }));
+
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert([
@@ -24,30 +31,14 @@ export const createOrder = async (
           coupon_id: couponId || null,
           status: 'pending',
           payment_status: 'pending',
-          expected_delivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] // 7 days from now
+          items: items,
+          expected_delivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
         }
       ])
       .select()
       .single();
 
     if (orderError) throw orderError;
-
-    // Create order items
-    const orderItems = cartItems.map(item => ({
-      order_id: order.id,
-      product_id: item.id,
-      quantity: item.quantity,
-      price: item.price,
-      mrp: item.mrp,
-      selected_size: item.selectedSize || null,
-      selected_color: item.selectedColor || null
-    }));
-
-    const { error: itemsError } = await supabase
-      .from('order_items')
-      .insert(orderItems);
-
-    if (itemsError) throw itemsError;
 
     // Create initial tracking entry
     const { error: trackingError } = await supabase

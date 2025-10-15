@@ -19,12 +19,30 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
 
   const fetchDeals = async () => {
     try {
-      const { data, error } = await supabase.rpc('get_todays_active_deals');
+      const now = new Date().toISOString();
 
-      if (error) throw error;
+      const { data, error } = await supabase
+        .from('todays_deals')
+        .select(`
+          id,
+          deal_price,
+          original_price,
+          starts_at,
+          ends_at,
+          product:products(*)
+        `)
+        .eq('is_active', true)
+        .lte('starts_at', now)
+        .gte('ends_at', now)
+        .limit(4);
 
-      const dealsArray = data || [];
-      setDeals(dealsArray.slice(0, 4));
+      if (error) {
+        console.error('Error fetching deals:', error);
+        throw error;
+      }
+
+      const dealsArray = (data || []).filter(deal => deal.product !== null);
+      setDeals(dealsArray);
     } catch (error) {
       console.error('Error fetching deals:', error);
     } finally {

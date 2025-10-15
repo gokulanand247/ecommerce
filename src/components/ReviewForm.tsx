@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { showToast } from './Toast';
 
 interface ReviewFormProps {
   productId: string;
@@ -28,24 +29,34 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, userId, onReviewAdde
     setError('');
 
     try {
+      const reviewData: any = {
+        product_id: productId,
+        rating
+      };
+
+      if (userId) {
+        reviewData.user_id = userId;
+      }
+
+      if (comment.trim()) {
+        reviewData.comment = comment.trim();
+      }
+
       const { error: insertError } = await supabase
         .from('reviews')
-        .insert([
-          {
-            product_id: productId,
-            user_id: userId,
-            rating,
-            comment: comment.trim() || null
-          }
-        ]);
+        .insert([reviewData]);
 
-      if (insertError) throw insertError;
+      if (insertError) {
+        console.error('Insert error:', insertError);
+        throw insertError;
+      }
 
-      alert('Review submitted successfully!');
+      showToast('Review submitted successfully!', 'success');
       onReviewAdded();
       onClose();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error submitting review:', err);
+      showToast(err?.message || 'Failed to submit review. Please try again.', 'error');
       setError('Failed to submit review. Please try again.');
     } finally {
       setIsSubmitting(false);
