@@ -11,7 +11,7 @@ interface HeaderProps {
   onHomeClick: () => void;
   user: UserType | null;
   onLogout: () => void;
-  currentView: 'home' | 'product' | 'orders';
+  currentView: 'home' | 'product' | 'orders' | 'store';
 }
 
 const Header: React.FC<HeaderProps> = ({
