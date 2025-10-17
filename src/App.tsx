@@ -185,9 +185,10 @@ function App() {
         onAuthClick={() => setIsAuthOpen(true)}
         onOrdersClick={() => setCurrentView('orders')}
         onHomeClick={() => setCurrentView('home')}
+        onStoreClick={handleStoreClick}
         user={user}
         onLogout={handleLogout}
-        currentView={currentView}
+        currentView={currentView as any}
       />
       
       {currentView === 'home' && (
