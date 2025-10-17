@@ -20,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   onAuthClick,
   onOrdersClick,
   onHomeClick,
+  onStoreClick,
   user,
   onLogout,
   currentView
