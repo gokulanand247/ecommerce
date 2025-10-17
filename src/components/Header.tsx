@@ -60,6 +60,17 @@ const Header: React.FC<HeaderProps> = ({
               <span className="hidden sm:inline">Home</span>
             </button>
 
+            {/* Store */}
+<button
+  onClick={onStoreClick}
+  className={`flex items-center space-x-2 transition-colors ${
+    currentView === 'store' ? 'text-pink-600' : 'text-gray-700 hover:text-pink-600'
+  }`}
+>
+  <Package className="h-5 w-5" />
+  <span className="hidden sm:inline">Store</span>
+</button>
+
             {/* User Auth */}
             {user ? (
               <div className="flex items-center space-x-4">
