@@ -7,6 +7,7 @@ interface HeaderProps {
   onCartClick: () => void;
   onAuthClick: () => void;
   onOrdersClick: () => void;
+  onStoreClick: () => void;
   onHomeClick: () => void;
   user: UserType | null;
   onLogout: () => void;
