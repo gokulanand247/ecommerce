@@ -103,6 +103,12 @@ function App() {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
+  const handleStoreClick = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setCurrentView('seller'); // or 'store', depending on what you want to show
+};
+
+
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
