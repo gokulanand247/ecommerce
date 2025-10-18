@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Banner from './components/Banner';
 import OffersSection from './components/OffersSection';
@@ -12,6 +12,8 @@ import ProductGrid from './components/ProductGrid';
 import ProductDetail from './components/ProductDetail';
 import ProductFilters from './components/ProductFilters';
 import OrdersPage from './components/OrdersPage';
+import StorePage from './components/StorePage';
+import StoreCategories from './components/StoreCategories';
 import Cart from './components/Cart';
 import AuthModal from './components/AuthModal';
 import EnhancedCheckoutModal from './components/EnhancedCheckoutModal';
@@ -34,7 +36,7 @@ function App() {
   const { products } = useProducts();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<User | null>(null);
-  const [currentView, setCurrentView] = useState<'home' | 'product' | 'orders' | 'about' | 'size-guide' | 'shipping' | 'privacy' | 'terms' | 'faq' | 'admin' | 'seller'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'product' | 'orders' | 'store' | 'about' | 'size-guide' | 'shipping' | 'privacy' | 'terms' | 'faq' | 'admin' | 'seller'>('home');
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [seller, setSeller] = useState<Seller | null>(null);
   const [selectedProductId, setSelectedProductId] = useState<string>('');
@@ -46,6 +48,7 @@ function App() {
   const [sortBy, setSortBy] = useState<string>('newest');
   const [minRating, setMinRating] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [storeSearchQuery, setStoreSearchQuery] = useState('');
 
   // Load user and cart data
   useEffect(() => {
@@ -104,9 +107,9 @@ function App() {
   };
 
   const handleStoreClick = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  setCurrentView('seller'); // or 'store', depending on what you want to show
-};
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentView('store');
+  };
 
 
   const getTotalPrice = () => {
@@ -192,6 +195,7 @@ function App() {
         onOrdersClick={() => setCurrentView('orders')}
         onHomeClick={() => setCurrentView('home')}
         onStoreClick={handleStoreClick}
+        onSearchStores={(query) => setStoreSearchQuery(query)}
         user={user}
         onLogout={handleLogout}
         currentView={currentView as any}
@@ -208,6 +212,12 @@ function App() {
           <FeaturedProducts
             onAddToCart={addToCart}
             onProductClick={handleProductClick}
+          />
+          <StoreCategories
+            onStoreClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setCurrentView('store');
+            }}
           />
           <Categories
             selectedCategory={selectedCategory}
@@ -247,7 +257,16 @@ function App() {
       {currentView === 'orders' && user && (
         <OrdersPage
           user={user}
-          onBack={() => setCurrentView('home')}
+          onBack={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setCurrentView('home'); }}
+        />
+      )}
+
+      {currentView === 'store' && (
+        <StorePage
+          onBack={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); setCurrentView('home'); }}
+          onAddToCart={addToCart}
+          onProductClick={handleProductClick}
+          initialSearchQuery={storeSearchQuery}
         />
       )}
 

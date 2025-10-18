@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShoppingCart, User, Phone, LogOut, Package, Home } from 'lucide-react';
 import { User as UserType } from '../types';
 
@@ -12,6 +12,7 @@ interface HeaderProps {
   user: UserType | null;
   onLogout: () => void;
   currentView: 'home' | 'product' | 'orders' | 'store';
+  onSearchStores?: (query: string) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -23,8 +24,23 @@ const Header: React.FC<HeaderProps> = ({
   onStoreClick,
   user,
   onLogout,
-  currentView
+  currentView,
+  onSearchStores
 }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    if (searchQuery.trim() && onSearchStores) {
+      onSearchStores(searchQuery);
+      onStoreClick();
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,10 +55,16 @@ const Header: React.FC<HeaderProps> = ({
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <input
                 type="text"
-                placeholder="Search for dresses..."
+                placeholder="Search for stores..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-500"
               />
-              <button className="bg-pink-600 text-white px-6 py-2 rounded-r-md hover:bg-pink-700 transition-colors">
+              <button
+                onClick={handleSearch}
+                className="bg-pink-600 text-white px-6 py-2 rounded-r-md hover:bg-pink-700 transition-colors"
+              >
                 Search
               </button>
             </div>
@@ -137,10 +159,16 @@ const Header: React.FC<HeaderProps> = ({
           <div className="flex">
             <input
               type="text"
-              placeholder="Search for dresses..."
+              placeholder="Search for stores..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleKeyPress}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
-            <button className="bg-pink-600 text-white px-4 py-2 rounded-r-md hover:bg-pink-700 transition-colors">
+            <button
+              onClick={handleSearch}
+              className="bg-pink-600 text-white px-4 py-2 rounded-r-md hover:bg-pink-700 transition-colors"
+            >
               Search
             </button>
           </div>

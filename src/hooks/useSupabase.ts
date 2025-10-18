@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Product, Banner, Review, Order, OrderTracking, Address, User } from '../types';
+import { Product, Banner, Review, Order, OrderTracking, Address } from '../types';
 
 export const useProducts = (category?: string) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -106,34 +106,34 @@ export const useReviews = (productId: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('reviews')
+        .select(`
+          *,
+          user:users(name, phone)
+        `)
+        .eq('product_id', productId)
+        .order('created_at', { ascending: false});
+
+      if (error) throw error;
+      setReviews(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('reviews')
-          .select(`
-            *,
-            user:users(name, phone)
-          `)
-          .eq('product_id', productId)
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setReviews(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (productId) {
       fetchReviews();
     }
   }, [productId]);
 
-  return { reviews, loading, error };
+  return { reviews, loading, error, refetch: fetchReviews };
 };
 
 export const useOrders = (userId: string) => {
@@ -141,31 +141,31 @@ export const useOrders = (userId: string) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setOrders(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from('orders')
-          .select('*')
-          .eq('user_id', userId)
-          .order('created_at', { ascending: false });
-
-        if (error) throw error;
-        setOrders(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (userId) {
       fetchOrders();
     }
   }, [userId]);
 
-  return { orders, loading, error, refetch: () => fetchOrders() };
+  return { orders, loading, error, refetch: fetchOrders };
 };
 
 export const useOrderTracking = (orderId: string) => {

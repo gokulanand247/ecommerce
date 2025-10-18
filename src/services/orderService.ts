@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import { CartItem, Address, Order, OrderItem } from '../types';
+import { CartItem, Address, Order } from '../types';
 
 export const createOrder = async (
   userId: string,
@@ -16,7 +16,7 @@ export const createOrder = async (
       quantity: item.quantity,
       price: item.price,
       name: item.name,
-      image_url: item.image
+      image_url: item.images?.[0] || item.image_url || ''
     }));
 
     const { data: order, error: orderError } = await supabase
@@ -38,25 +38,22 @@ export const createOrder = async (
       .select()
       .single();
 
-    if (orderError) throw orderError;
+    if (orderError) {
+      console.error('Order creation error:', orderError);
+      throw new Error(orderError.message || 'Failed to create order. Please check your connection and try again.');
+    }
 
-    // Create initial tracking entry
-    const { error: trackingError } = await supabase
-      .from('order_tracking')
-      .insert([
-        {
-          order_id: order.id,
-          status: 'pending',
-          message: 'Order placed successfully',
-          location: 'Processing Center'
-        }
-      ]);
-
-    if (trackingError) throw trackingError;
+    if (!order) {
+      throw new Error('Order was not created. Please try again.');
+    }
 
     return order;
   } catch (error) {
-    throw error;
+    console.error('Create order exception:', error);
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Failed to create order. Please try again.');
   }
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Plus, CreditCard, Tag } from 'lucide-react';
-import { User, CartItem, Address } from '../types';
+import { User, CartItem } from '../types';
 import { useAddresses } from '../hooks/useSupabase';
 import { createOrder, updateOrderPayment } from '../services/orderService';
 import { applyCoupon } from '../services/couponService';

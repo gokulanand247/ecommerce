@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Star, Clock, ShoppingCart, Truck, Shield, RotateCcw, MessageSquare } from 'lucide-react';
-import { useProduct, useReviews } from '../hooks/useSupabase';
+import { ArrowLeft, Star, Clock, ShoppingCart, Truck, Shield, RotateCcw, MessageSquare, Package } from 'lucide-react';
+import { useProduct, useReviews, useProducts } from '../hooks/useSupabase';
 import { Product, User } from '../types';
 import ReviewForm from './ReviewForm';
 import { supabase } from '../lib/supabase';
+import { getRelatedProducts } from '../utils/relatedProducts';
+import ProductCard from './ProductCard';
+import { showToast } from './Toast';
 
 interface ProductDetailProps {
   productId: string;
@@ -15,17 +18,26 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, onBack, user }) => {
   const { product, loading: productLoading } = useProduct(productId);
   const { reviews, loading: reviewsLoading, refetch: refetchReviews } = useReviews(productId);
+  const { products: allProducts } = useProducts();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [seller, setSeller] = useState<any>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     if (product?.seller_id) {
       fetchSeller(product.seller_id);
     }
   }, [product]);
+
+  useEffect(() => {
+    if (product && allProducts.length > 0) {
+      const related = getRelatedProducts(product, allProducts, 4);
+      setRelatedProducts(related);
+    }
+  }, [product, allProducts]);
 
   useEffect(() => {
     const channel = supabase
@@ -127,12 +139,21 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
   });
 
   const handleAddToCart = () => {
+    if (product.sizes.length > 0 && !selectedSize) {
+      showToast('Please select a size', 'error');
+      return;
+    }
+    if (product.colors.length > 0 && !selectedColor) {
+      showToast('Please select a color', 'error');
+      return;
+    }
     const cartItem = {
       ...product,
       selectedSize: selectedSize || undefined,
       selectedColor: selectedColor || undefined
     };
     onAddToCart(cartItem);
+    showToast('Added to cart successfully!', 'success');
   };
 
   const renderStars = (rating: number) => {
@@ -197,19 +218,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-gray-600">
+              <p className="text-gray-600 leading-relaxed">
                 {product.description}
-                {product.stock <= 3 && product.stock > 0 && (
-                  <span className="text-red-600 font-semibold ml-2">
-                    Only {product.stock} left in stock!
-                  </span>
-                )}
-                {product.stock === 0 && (
-                  <span className="text-red-600 font-semibold ml-2">
-                    Out of Stock
-                  </span>
-                )}
               </p>
+              {product.stock_quantity <= 3 && product.stock_quantity > 0 && (
+                <p className="text-red-600 font-semibold mt-2">
+                  Only {product.stock_quantity} left in stock!
+                </p>
+              )}
+              {product.stock_quantity === 0 && (
+                <p className="text-red-600 font-semibold mt-2">
+                  Out of Stock
+                </p>
+              )}
               {seller && (
                 <p className="text-sm text-gray-500 mt-2">
                   <span className="font-medium">Seller:</span> {seller.shop_name}
@@ -325,6 +346,84 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             </div>
           </div>
         </div>
+
+        {/* Product Details Section */}
+        <div className="mt-12 bg-white rounded-lg shadow-sm p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Product Details</h2>
+          <div className="space-y-3 text-gray-700">
+            <div className="flex">
+              <span className="font-medium w-32">Category:</span>
+              <span>{product.category}</span>
+            </div>
+            {product.sizes.length > 0 && (
+              <div className="flex">
+                <span className="font-medium w-32">Available Sizes:</span>
+                <span>{product.sizes.join(', ')}</span>
+              </div>
+            )}
+            {product.colors.length > 0 && (
+              <div className="flex">
+                <span className="font-medium w-32">Available Colors:</span>
+                <span>{product.colors.join(', ')}</span>
+              </div>
+            )}
+            <div className="flex">
+              <span className="font-medium w-32">Stock:</span>
+              <span className={product.stock_quantity > 10 ? 'text-green-600' : 'text-orange-600'}>
+                {product.stock_quantity > 10 ? 'In Stock' : `Only ${product.stock_quantity} left`}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-6 border-t">
+            <h3 className="font-semibold text-lg mb-3">Description</h3>
+            <p className="text-gray-600 leading-relaxed">
+              {product.description}
+            </p>
+          </div>
+
+          <div className="mt-6 pt-6 border-t">
+            <h3 className="font-semibold text-lg mb-3">Product Features</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li className="flex items-start">
+                <Package className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <span>Premium quality fabric for long-lasting wear</span>
+              </li>
+              <li className="flex items-start">
+                <Shield className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <span>100% authentic and verified product</span>
+              </li>
+              <li className="flex items-start">
+                <Truck className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <span>Free shipping on all orders</span>
+              </li>
+              <li className="flex items-start">
+                <RotateCcw className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <span>7-day easy return and exchange policy</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Products</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedProducts.map((relatedProduct) => (
+                <ProductCard
+                  key={relatedProduct.id}
+                  product={relatedProduct}
+                  onAddToCart={onAddToCart}
+                  onProductClick={(id) => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.location.hash = `product-${id}`;
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Reviews Section */}
         <div className="mt-12">

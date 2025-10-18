@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, MapPin, Plus, CreditCard } from 'lucide-react';
-import { User, CartItem, Address } from '../types';
+import { X, Plus, CreditCard } from 'lucide-react';
+import { User, CartItem } from '../types';
 import { useAddresses } from '../hooks/useSupabase';
 import { createOrder, updateOrderPayment } from '../services/orderService';
 
