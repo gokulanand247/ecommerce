@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://thjdmylumbbplhhrwvtx.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoamRteWx1bWJicGxoaHJ3dnR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDU2NTEsImV4cCI6MjA3NTc4MTY1MX0.qASV4kMeKOPGb1_qmZygLDsJHZn8A_LPTD9Rw1SfYe8';
+//const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://thjdmylumbbplhhrwvtx.supabase.co';
+//const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoamRteWx1bWJicGxoaHJ3dnR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAyMDU2NTEsImV4cCI6MjA3NTc4MTY1MX0.qASV4kMeKOPGb1_qmZygLDsJHZn8A_LPTD9Rw1SfYe8';
+
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://gkczfyhqwbmdbthykije.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrY3pmeWhxd2JtZGJ0aHlraWplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MzA0NjEsImV4cCI6MjA3NjIwNjQ2MX0.2ZSeGNuAEY7rBvss0rkDQCpPnr_oIhHatoWrepkLh8A';
 
 console.log('Connected to Supabase:', supabaseUrl);
 
