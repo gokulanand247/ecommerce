@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Mail, Lock, User as UserIcon, Phone } from 'lucide-react';
-import { signIn, signUp, resetPassword } from '../services/authService';
+import { X, Phone as PhoneIcon, User as UserIcon } from 'lucide-react';
+import { signIn, signUp, setCurrentUser } from '../services/authService';
 import { User } from '../types';
 
 interface AuthModalProps {
@@ -9,18 +9,15 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
-  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      setError('Please enter both email and password');
+    if (!phone || phone.length !== 10) {
+      setError('Please enter a valid 10-digit phone number');
       return;
     }
 
@@ -28,9 +25,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
     setIsLoading(true);
 
     try {
-      const user = await signIn(email, password);
+      const user = await signIn(phone);
+      setCurrentUser(user);
       setIsLoading(false);
       onLogin(user);
+      onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to login');
       setIsLoading(false);
@@ -38,7 +37,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
   };
 
   const handleSignup = async () => {
-    if (!email || !password || !name || !phone) {
+    if (!phone || !name) {
       setError('Please fill in all required fields');
       return;
     }
@@ -48,278 +47,101 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-
     setError('');
     setIsLoading(true);
 
     try {
-      const user = await signUp(email, password, name, phone);
+      const user = await signUp(phone, name);
+      setCurrentUser(user);
       setIsLoading(false);
       onLogin(user);
+      onClose();
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to sign up';
-      if (errorMsg.includes('User already registered')) {
-        setError('Email already registered. Please login instead.');
-      } else {
-        setError(errorMsg);
-      }
-      setIsLoading(false);
-    }
-  };
-
-  const handleForgotPassword = async () => {
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-
-    setError('');
-    setSuccessMessage('');
-    setIsLoading(true);
-
-    try {
-      const result = await resetPassword(email);
-      setIsLoading(false);
-      if (result.success) {
-        setSuccessMessage(result.message);
-        setTimeout(() => setMode('login'), 3000);
-      } else {
-        setError(result.message);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send reset link');
+      setError(err instanceof Error ? err.message : 'Failed to sign up');
       setIsLoading(false);
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold">
-            {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Forgot Password'}
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          <X size={24} />
+        </button>
+
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          {mode === 'login' ? 'Login' : 'Sign Up'}
+        </h2>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
-            {error}
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
-        {successMessage && (
-          <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded text-sm">
-            {successMessage}
-          </div>
-        )}
-
-        {mode === 'login' && (
-          <div>
-            <div className="mb-4">
+        <div className="space-y-4">
+          {mode === 'signup' && (
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
+                Name
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={() => setMode('forgot')}
-              className="text-sm text-pink-600 hover:text-pink-700 mb-4 block"
-            >
-              Forgot Password?
-            </button>
-
-            <button
-              onClick={handleLogin}
-              disabled={isLoading}
-              className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors mb-4"
-            >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
-
-            <p className="text-center text-sm text-gray-600">
-              Don't have an account?{' '}
-              <button
-                onClick={() => {
-                  setMode('signup');
-                  setError('');
-                }}
-                className="text-pink-600 hover:text-pink-700 font-medium"
-              >
-                Sign Up
-              </button>
-            </p>
-          </div>
-        )}
-
-        {mode === 'signup' && (
-          <div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter your name"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
               </div>
             </div>
+          )}
 
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="Enter 10 digit phone number"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                  maxLength={10}
-                />
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password <span className="text-red-500">*</span>
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password (min 6 characters)"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={handleSignup}
-              disabled={isLoading}
-              className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors mb-4"
-            >
-              {isLoading ? 'Creating Account...' : 'Sign Up'}
-            </button>
-
-            <p className="text-center text-sm text-gray-600">
-              Already have an account?{' '}
-              <button
-                onClick={() => {
-                  setMode('login');
-                  setError('');
-                }}
-                className="text-pink-600 hover:text-pink-700 font-medium"
-              >
-                Login
-              </button>
-            </p>
-          </div>
-        )}
-
-        {mode === 'forgot' && (
           <div>
-            <p className="text-sm text-gray-600 mb-4">
-              Enter your email address and we'll send you a link to reset your password.
-            </p>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
-              </div>
-            </div>
-
-            <div className="flex space-x-3">
-              <button
-                onClick={() => {
-                  setMode('login');
-                  setError('');
-                  setSuccessMessage('');
-                }}
-                className="flex-1 border border-gray-300 text-gray-700 font-semibold py-3 rounded-md hover:bg-gray-50 transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={handleForgotPassword}
-                disabled={isLoading}
-                className="flex-1 bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors"
-              >
-                {isLoading ? 'Sending...' : 'Send Reset Link'}
-              </button>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number
+            </label>
+            <div className="relative">
+              <PhoneIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="10-digit mobile number"
+                maxLength={10}
+              />
             </div>
           </div>
-        )}
+
+          <button
+            onClick={mode === 'login' ? handleLogin : handleSignup}
+            disabled={isLoading}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          >
+            {isLoading ? 'Processing...' : mode === 'login' ? 'Login' : 'Sign Up'}
+          </button>
+
+          <div className="text-center mt-4">
+            <button
+              onClick={() => {
+                setMode(mode === 'login' ? 'signup' : 'login');
+                setError('');
+                setPhone('');
+                setName('');
+              }}
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+            >
+              {mode === 'login'
+                ? "Don't have an account? Sign Up"
+                : 'Already have an account? Login'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

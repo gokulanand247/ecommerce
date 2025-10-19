@@ -52,9 +52,9 @@ function App() {
 
   // Load user and cart data
   useEffect(() => {
-    const loadUserData = async () => {
+    const loadUserData = () => {
       try {
-        const currentUser = await getCurrentUser();
+        const currentUser = getCurrentUser();
         setUser(currentUser);
       } catch (error) {
         console.error('Error loading user:', error);

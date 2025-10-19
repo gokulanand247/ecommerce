@@ -16,11 +16,34 @@ export interface TodaysDeal {
 
 export const getActiveDeals = async (): Promise<any[]> => {
   try {
+    const now = new Date().toISOString();
     const { data, error } = await supabase
-      .rpc('get_todays_active_deals');
+      .from('todays_deals')
+      .select(`
+        *,
+        products (
+          id,
+          name,
+          description,
+          price,
+          mrp,
+          image_url,
+          images,
+          category,
+          sizes,
+          colors,
+          stock,
+          seller_id,
+          sellers (shop_name)
+        )
+      `)
+      .eq('is_active', true)
+      .lte('valid_from', now)
+      .gte('valid_until', now)
+      .order('sort_order', { ascending: true });
 
     if (error) throw error;
-    return Array.isArray(data) ? data : (data ? [data] : []);
+    return data || [];
   } catch (error) {
     throw error;
   }
@@ -52,26 +75,16 @@ export const getAllDeals = async (): Promise<any[]> => {
 
 export const createDeal = async (dealData: any): Promise<TodaysDeal> => {
   try {
-    const productData = await supabase
-      .from('products')
-      .select('price, mrp')
-      .eq('id', dealData.product_id)
-      .single();
-
-    if (productData.error) throw productData.error;
-
     const deal = {
       product_id: dealData.product_id,
       discount_percentage: dealData.discount_percentage,
-      deal_price: dealData.deal_price || (productData.data.price * (100 - dealData.discount_percentage) / 100),
-      original_price: dealData.original_price || productData.data.mrp,
-      starts_at: dealData.starts_at || new Date().toISOString(),
-      ends_at: dealData.ends_at,
+      valid_from: dealData.valid_from || new Date().toISOString(),
+      valid_until: dealData.valid_until,
       is_active: dealData.is_active !== undefined ? dealData.is_active : true,
       sort_order: dealData.sort_order || 0
     };
 
-    const { data, error} = await supabase
+    const { data, error } = await supabase
       .from('todays_deals')
       .insert([deal])
       .select()
