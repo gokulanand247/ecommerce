@@ -133,35 +133,70 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
       return;
     }
 
+    const itemsWithSizeColor = cartItems.filter(item =>
+      item.selectedSize && item.selectedColor
+    );
+
+    if (itemsWithSizeColor.length !== cartItems.length) {
+      setError('Please select size and color for all items');
+      return;
+    }
+
     setError('');
     setIsProcessing(true);
 
-    try {
-      const order = await createOrder(
-        user.id,
-        cartItems,
-        selectedAddr,
-        finalTotal,
-        appliedCoupon?.coupon_id,
-        discountAmount,
-        subtotal
-      );
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
+    if (!razorpayKey || razorpayKey === 'your_razorpay_key_id') {
+      showToast('Razorpay not configured. Creating order in test mode...', 'info');
+      try {
+        const order = await createOrder(
+          user.id,
+          cartItems,
+          selectedAddr,
+          finalTotal,
+          appliedCoupon?.coupon_id,
+          discountAmount,
+          subtotal
+        );
+        await updateOrderPayment(order.id, 'test_payment_' + Date.now(), 'completed');
+        setIsProcessing(false);
+        showToast('Order placed successfully in test mode!', 'success');
+        onOrderComplete();
+      } catch (err) {
+        console.error('Order creation error:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Failed to create order';
+        setError(errorMessage);
+        setIsProcessing(false);
+      }
+      return;
+    }
+
+    try {
       const options = {
-        key: 'rzp_live_RPqf3ZMoQBXot7',
+        key: razorpayKey,
         amount: Math.round(finalTotal * 100),
         currency: 'INR',
         name: 'DressHub',
-        description: `Order #${order.id.substring(0, 8)}`,
+        description: 'Order Payment',
         image: 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200',
         handler: async function (response: any) {
           try {
+            const order = await createOrder(
+              user.id,
+              cartItems,
+              selectedAddr,
+              finalTotal,
+              appliedCoupon?.coupon_id,
+              discountAmount,
+              subtotal
+            );
             await updateOrderPayment(order.id, response.razorpay_payment_id, 'completed');
             setIsProcessing(false);
             showToast('Payment successful! Your order has been placed.', 'success');
             onOrderComplete();
           } catch (err) {
-            setError('Payment verification failed. Please contact support.');
+            setError('Order creation failed. Please contact support with payment ID: ' + response.razorpay_payment_id);
             setIsProcessing(false);
           }
         },
@@ -171,7 +206,6 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
           contact: selectedAddr.phone
         },
         notes: {
-          order_id: order.id,
           address: `${selectedAddr.street}, ${selectedAddr.city}`,
           coupon_code: appliedCoupon?.code || 'none'
         },
@@ -181,7 +215,7 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
         modal: {
           ondismiss: function() {
             setIsProcessing(false);
-            setError('Payment cancelled. Please try again.');
+            showToast('Payment cancelled', 'info');
           }
         }
       };
@@ -190,12 +224,12 @@ const EnhancedCheckoutModal: React.FC<CheckoutModalProps> = ({
       razorpay.on('payment.failed', function (response: any){
         setIsProcessing(false);
         setError('Payment failed: ' + response.error.description);
+        showToast('Payment failed', 'error');
       });
       razorpay.open();
     } catch (err) {
-      console.error('Order creation error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create order';
-      setError(errorMessage + '. Please try again or contact support.');
+      console.error('Payment initialization error:', err);
+      setError('Failed to initialize payment. Please try again.');
       setIsProcessing(false);
     }
   };

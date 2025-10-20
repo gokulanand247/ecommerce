@@ -43,39 +43,41 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
 
   const mainImage = product.images && product.images.length > 0 ? product.images[0] : '';
   
-  const isDress = ['sarees', 'ethnic', 'western', 'party'].includes(product.category);
-  
   const handleAddToCart = () => {
-    if (isDress && product.sizes.length > 0 && !selectedSize) {
+    if ((product.sizes.length > 0 || product.colors.length > 0) && (!selectedSize || !selectedColor)) {
       setShowSizeModal(true);
       return;
     }
-    
+
     const cartItem = {
       ...product,
-      selectedSize: selectedSize || undefined,
-      selectedColor: selectedColor || undefined
+      selectedSize: selectedSize || (product.sizes.length > 0 ? product.sizes[0] : 'One Size'),
+      selectedColor: selectedColor || (product.colors.length > 0 ? product.colors[0] : 'Default')
     };
     onAddToCart(cartItem);
-    
+
     // Reset selections
     setSelectedSize('');
     setSelectedColor('');
   };
   
   const handleSizeModalConfirm = () => {
-    if (!selectedSize) {
+    if (product.sizes.length > 0 && !selectedSize) {
       alert('Please select a size');
       return;
     }
-    
+    if (product.colors.length > 0 && !selectedColor) {
+      alert('Please select a color');
+      return;
+    }
+
     const cartItem = {
       ...product,
-      selectedSize,
-      selectedColor: selectedColor || undefined
+      selectedSize: selectedSize || 'One Size',
+      selectedColor: selectedColor || 'Default'
     };
     onAddToCart(cartItem);
-    
+
     // Reset and close modal
     setSelectedSize('');
     setSelectedColor('');
@@ -175,7 +177,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
             {product.colors.length > 0 && (
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Color
+                  Color *
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {product.colors.map((color) => (

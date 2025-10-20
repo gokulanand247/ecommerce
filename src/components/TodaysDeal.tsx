@@ -25,15 +25,30 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
         .from('todays_deals')
         .select(`
           id,
-          deal_price,
-          original_price,
-          starts_at,
-          ends_at,
-          product:products(*)
+          discount_percentage,
+          valid_from,
+          valid_until,
+          products (
+            id,
+            name,
+            description,
+            price,
+            mrp,
+            image_url,
+            images,
+            category,
+            sizes,
+            colors,
+            stock,
+            stock_quantity,
+            is_active,
+            seller_id,
+            average_rating
+          )
         `)
         .eq('is_active', true)
-        .lte('starts_at', now)
-        .gte('ends_at', now)
+        .lte('valid_from', now)
+        .gte('valid_until', now)
         .limit(4);
 
       if (error) {
@@ -41,7 +56,20 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
         throw error;
       }
 
-      const dealsArray = (data || []).filter(deal => deal.product !== null);
+      const dealsArray = (data || []).map(deal => ({
+        id: deal.id,
+        product_id: deal.products?.id || '',
+        deal_price: deal.products ? Math.round(deal.products.price * (100 - deal.discount_percentage) / 100) : 0,
+        original_price: deal.products?.mrp || 0,
+        starts_at: deal.valid_from,
+        ends_at: deal.valid_until,
+        is_active: true,
+        discount_percentage: deal.discount_percentage,
+        sort_order: 0,
+        created_at: '',
+        product: deal.products
+      })).filter(deal => deal.product !== null);
+
       setDeals(dealsArray);
     } catch (error) {
       console.error('Error fetching deals:', error);

@@ -9,8 +9,7 @@ interface StoreCategoriesProps {
 interface Seller {
   id: string;
   shop_name: string;
-  shop_logo: string;
-  description: string;
+  city: string | null;
 }
 
 const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
@@ -25,8 +24,9 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
     try {
       const { data, error } = await supabase
         .from('sellers')
-        .select('id, shop_name, shop_logo, description')
+        .select('id, shop_name, city')
         .eq('is_active', true)
+        .eq('is_verified', true)
         .limit(4)
         .order('created_at', { ascending: false });
 
@@ -84,12 +84,8 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
               className="flex flex-col items-center cursor-pointer group"
             >
               <div className="relative mb-3">
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110">
-                  <img
-                    src={seller.shop_logo || 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200'}
-                    alt={seller.shop_name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110 bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                  <Store className="h-12 w-12 text-white" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 bg-pink-600 rounded-full p-2 shadow-lg">
                   <Store className="h-4 w-4 text-white" />
@@ -98,9 +94,11 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
               <h3 className="font-semibold text-gray-900 text-center group-hover:text-pink-600 transition-colors">
                 {seller.shop_name}
               </h3>
-              <p className="text-xs text-gray-500 text-center mt-1 line-clamp-2 px-2">
-                {seller.description}
-              </p>
+              {seller.city && (
+                <p className="text-xs text-gray-500 text-center mt-1 px-2">
+                  {seller.city}
+                </p>
+              )}
             </div>
           ))}
         </div>

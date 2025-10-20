@@ -109,27 +109,25 @@ export const createOrder = async (
           discount_amount: discountAmount
         }
       ]);
-
-      await supabase.rpc('increment', {
-        table_name: 'coupons',
-        id: couponId,
-        column_name: 'usage_count'
-      }).catch(() => {
-        supabase
-          .from('coupons')
-          .update({ usage_count: supabase.sql`usage_count + 1` })
-          .eq('id', couponId);
-      });
     }
 
     for (const item of allOrderItems) {
-      await supabase
+      const { data: product } = await supabase
         .from('products')
-        .update({
-          stock: supabase.sql`stock - ${item.quantity}`,
-          stock_quantity: supabase.sql`stock_quantity - ${item.quantity}`
-        })
-        .eq('id', item.product_id);
+        .select('stock, stock_quantity')
+        .eq('id', item.product_id)
+        .single();
+
+      if (product) {
+        const newStock = (product.stock || 0) - item.quantity;
+        await supabase
+          .from('products')
+          .update({
+            stock: newStock,
+            stock_quantity: newStock
+          })
+          .eq('id', item.product_id);
+      }
     }
 
     return order;
