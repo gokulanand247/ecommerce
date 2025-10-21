@@ -135,10 +135,11 @@ useEffect(() => {
     setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
-  const handleStoreClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setCurrentView('store');
-  };
+  const handleStoreClick = (store) => {
+  setSelectedSeller(store);   // remember which seller was clicked
+  setActivePage('store');     // go to store page
+};
+
 
 
   const getTotalPrice = () => {
