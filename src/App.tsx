@@ -73,6 +73,29 @@ function App() {
     loadUserData();
   }, []);
 
+  // Load cart from Supabase when user logs in
+useEffect(() => {
+  if (user) {
+    loadCartFromDatabase(user.id)
+      .then(dbCart => {
+        if (dbCart && dbCart.length > 0) {
+          setCartItems(dbCart);
+        }
+      })
+      .catch(err => console.error('Error loading cart from DB:', err));
+  }
+}, [user]);
+
+// Save cart to Supabase whenever cart changes
+useEffect(() => {
+  if (user) {
+    saveCartToDatabase(user.id, cartItems).catch(err =>
+      console.error('Error saving cart to DB:', err)
+    );
+  }
+}, [cartItems, user]);
+
+
   // Save cart to localStorage
  // useEffect(() => {
   //  localStorage.setItem('cart', JSON.stringify(cartItems));
