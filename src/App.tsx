@@ -31,6 +31,8 @@ import { ToastContainer, showToast } from './components/Toast';
 import { Product, CartItem, User } from './types';
 import { useProducts } from './hooks/useSupabase';
 import { getCurrentUser, signOut } from './services/authService';
+import { saveCartToDatabase, loadCartFromDatabase, clearCartFromDatabase } from './services/cartService';
+
 
 function App() {
   const { products } = useProducts();
@@ -63,18 +65,18 @@ function App() {
       }
     };
 
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
-    }
+    //const savedCart = localStorage.getItem('cart');
+    //if (savedCart) {
+    //  setCartItems(JSON.parse(savedCart));
+   // }
 
     loadUserData();
   }, []);
 
   // Save cart to localStorage
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+ // useEffect(() => {
+  //  localStorage.setItem('cart', JSON.stringify(cartItems));
+ // }, [cartItems]);
 
   const addToCart = (product: Product) => {
     setCartItems(prev => {
