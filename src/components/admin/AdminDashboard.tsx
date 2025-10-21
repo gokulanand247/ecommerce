@@ -190,16 +190,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-pink-600 to-purple-600 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-red-600 to-purple-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-              <p className="text-pink-100">Welcome, {admin.name}</p>
+              <p className="text-red-100">Welcome, {admin.name}</p>
             </div>
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 bg-white text-pink-600 px-4 py-2 rounded-lg hover:bg-pink-50 transition-colors"
+              className="flex items-center space-x-2 bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
@@ -216,7 +216,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               onClick={() => setActiveTab('products')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'products'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -227,7 +227,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               onClick={() => setActiveTab('orders')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'orders'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -238,7 +238,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               onClick={() => setActiveTab('sellers')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'sellers'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -249,7 +249,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               onClick={() => setActiveTab('coupons')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'coupons'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -260,7 +260,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               onClick={() => setActiveTab('deals')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
                 activeTab === 'deals'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -280,7 +280,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
               <h2 className="text-2xl font-bold text-gray-900">Product Management</h2>
               <button
                 onClick={() => setShowProductForm(true)}
-                className="flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-pink-700 hover:to-purple-700 transition-all"
+                className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-purple-700 transition-all"
               >
                 <Plus className="h-5 w-5" />
                 <span>Add New Product</span>
@@ -316,7 +316,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                             type="text"
                             value={productForm.name}
                             onChange={(e) => setProductForm({...productForm, name: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
                           />
                         </div>
@@ -329,7 +329,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                           <select
                             value={productForm.category}
                             onChange={(e) => setProductForm({...productForm, category: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                           >
                             {categories.map(cat => (
                               <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -346,7 +346,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                             type="number"
                             value={productForm.mrp}
                             onChange={(e) => setProductForm({...productForm, mrp: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
                           />
                         </div>
@@ -360,7 +360,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                             type="number"
                             value={productForm.price}
                             onChange={(e) => setProductForm({...productForm, price: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                             required
                           />
                         </div>
@@ -374,7 +374,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                             type="number"
                             value={productForm.stock}
                             onChange={(e) => setProductForm({...productForm, stock: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                           />
                         </div>
 
@@ -384,7 +384,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                             type="checkbox"
                             checked={productForm.is_active}
                             onChange={(e) => setProductForm({...productForm, is_active: e.target.checked})}
-                            className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
+                            className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
                           />
                           <label className="ml-2 block text-sm text-gray-700">
                             Product Active
@@ -401,7 +401,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                           value={productForm.description}
                           onChange={(e) => setProductForm({...productForm, description: e.target.value})}
                           rows={4}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
                       </div>
 
@@ -433,7 +433,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                           value={productForm.image_url}
                           onChange={(e) => setProductForm({...productForm, image_url: e.target.value})}
                           placeholder="https://example.com/image.jpg"
-                          className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                          className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
                       </div>
 
@@ -450,7 +450,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                               onClick={() => handleSizeToggle(size)}
                               className={`px-4 py-2 rounded-lg border-2 transition-all ${
                                 productForm.sizes.includes(size)
-                                  ? 'border-pink-600 bg-pink-50 text-pink-600'
+                                  ? 'border-red-600 bg-red-50 text-red-600'
                                   : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                               }`}
                             >
@@ -473,7 +473,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                               onClick={() => handleColorToggle(color)}
                               className={`px-4 py-2 rounded-lg border-2 transition-all ${
                                 productForm.colors.includes(color)
-                                  ? 'border-pink-600 bg-pink-50 text-pink-600'
+                                  ? 'border-red-600 bg-red-50 text-red-600'
                                   : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                               }`}
                             >
@@ -488,7 +488,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-pink-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
+                          className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
                         >
                           <Save className="h-5 w-5" />
                           <span>{isSubmitting ? 'Saving...' : editingProduct ? 'Update Product' : 'Create Product'}</span>
@@ -520,7 +520,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
                   <div className="p-4">
                     <h3 className="font-semibold text-lg text-gray-900 mb-2">{product.name}</h3>
                     <div className="flex items-center space-x-2 mb-2">
-                      <span className="text-lg font-bold text-pink-600">₹{product.price}</span>
+                      <span className="text-lg font-bold text-red-600">₹{product.price}</span>
                       <span className="text-sm text-gray-500 line-through">₹{product.mrp}</span>
                     </div>
                     <p className="text-sm text-gray-600 mb-2">Category: {product.category}</p>

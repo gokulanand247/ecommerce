@@ -99,7 +99,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <button
               onClick={handleBackToStores}
-              className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+              className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>Back to Stores</span>
@@ -113,7 +113,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
               <img
                 src={selectedSeller.shop_logo || 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200'}
                 alt={selectedSeller.shop_name}
-                className="w-20 h-20 rounded-full object-cover border-2 border-pink-600"
+                className="w-20 h-20 rounded-full object-cover border-2 border-red-600"
               />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">{selectedSeller.shop_name}</h1>
@@ -153,7 +153,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
             onClick={onBack}
-            className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+            className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span>Back to Home</span>
@@ -174,7 +174,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
               placeholder="Search for stores..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
             />
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           </div>
@@ -182,7 +182,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
           </div>
         ) : filteredSellers.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-lg shadow-sm">
@@ -201,7 +201,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
                   className="bg-white rounded-lg shadow-sm p-6 cursor-pointer hover:shadow-md transition-all hover:scale-105"
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-pink-100">
+                    <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-4 border-red-100">
                       <img
                         src={seller.shop_logo || 'https://images.pexels.com/photos/1926769/pexels-photo-1926769.jpeg?auto=compress&cs=tinysrgb&w=200'}
                         alt={seller.shop_name}
@@ -219,7 +219,7 @@ const StorePage: React.FC<StorePageProps> = ({ onBack, onAddToCart, onProductCli
               <div className="text-center mt-8">
                 <button
                   onClick={() => setShowMore(!showMore)}
-                  className="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+                  className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
                 >
                   {showMore ? 'Show Less' : 'See More Stores'}
                 </button>

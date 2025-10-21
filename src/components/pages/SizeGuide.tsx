@@ -25,7 +25,7 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ onBack }) => {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-pink-100">
+                  <tr className="bg-red-100">
                     <th className="border border-gray-300 px-4 py-2">Size</th>
                     <th className="border border-gray-300 px-4 py-2">Bust (inches)</th>
                     <th className="border border-gray-300 px-4 py-2">Waist (inches)</th>
@@ -94,7 +94,7 @@ const SizeGuide: React.FC<SizeGuideProps> = ({ onBack }) => {
 
           <div className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Saree Measurements</h2>
-            <div className="bg-pink-50 border border-pink-200 rounded-lg p-6">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
               <p className="text-gray-700">
                 <strong>Standard Saree Length:</strong> 5.5 to 6 meters (Free Size)
               </p>

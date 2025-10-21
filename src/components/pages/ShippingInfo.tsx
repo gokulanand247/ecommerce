@@ -22,8 +22,8 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="flex items-start space-x-4">
-              <div className="bg-pink-100 p-3 rounded-lg">
-                <Truck className="h-6 w-6 text-pink-600" />
+              <div className="bg-red-100 p-3 rounded-lg">
+                <Truck className="h-6 w-6 text-red-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-2">Free Shipping</h3>
@@ -32,8 +32,8 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
             </div>
 
             <div className="flex items-start space-x-4">
-              <div className="bg-pink-100 p-3 rounded-lg">
-                <Clock className="h-6 w-6 text-pink-600" />
+              <div className="bg-red-100 p-3 rounded-lg">
+                <Clock className="h-6 w-6 text-red-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-2">Fast Delivery</h3>
@@ -42,8 +42,8 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
             </div>
 
             <div className="flex items-start space-x-4">
-              <div className="bg-pink-100 p-3 rounded-lg">
-                <Package className="h-6 w-6 text-pink-600" />
+              <div className="bg-red-100 p-3 rounded-lg">
+                <Package className="h-6 w-6 text-red-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-2">Secure Packaging</h3>
@@ -52,8 +52,8 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
             </div>
 
             <div className="flex items-start space-x-4">
-              <div className="bg-pink-100 p-3 rounded-lg">
-                <MapPin className="h-6 w-6 text-pink-600" />
+              <div className="bg-red-100 p-3 rounded-lg">
+                <MapPin className="h-6 w-6 text-red-600" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-2">Pan India</h3>
@@ -89,7 +89,7 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-pink-100">
+                  <tr className="bg-red-100">
                     <th className="border border-gray-300 px-4 py-2 text-left">Order Value</th>
                     <th className="border border-gray-300 px-4 py-2 text-left">Shipping Charge</th>
                   </tr>
@@ -124,7 +124,7 @@ const ShippingInfo: React.FC<ShippingInfoProps> = ({ onBack }) => {
             </div>
           </div>
 
-          <div className="bg-pink-50 border border-pink-200 rounded-lg p-6">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6">
             <h3 className="font-semibold text-lg mb-2">Questions About Shipping?</h3>
             <p className="text-gray-600">
               If you have any questions about shipping or need to track your order, please contact our customer support team. We're here to help!

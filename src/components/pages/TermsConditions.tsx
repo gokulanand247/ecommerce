@@ -129,7 +129,7 @@ const TermsConditions: React.FC<TermsConditionsProps> = ({ onBack }) => {
               </p>
             </section>
 
-            <section className="bg-pink-50 border border-pink-200 rounded-lg p-6">
+            <section className="bg-red-50 border border-red-200 rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-3">Contact Information</h2>
               <p className="text-gray-600">
                 If you have any questions about these Terms and Conditions, please contact our customer support team.

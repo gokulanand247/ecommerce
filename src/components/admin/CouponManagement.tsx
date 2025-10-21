@@ -131,7 +131,7 @@ const CouponManagement: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -145,7 +145,7 @@ const CouponManagement: React.FC = () => {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-pink-700 hover:to-purple-700 transition-all"
+          className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-purple-700 transition-all"
         >
           <Plus className="h-5 w-5" />
           <span>Add Coupon</span>
@@ -175,7 +175,7 @@ const CouponManagement: React.FC = () => {
                       type="text"
                       value={formData.code}
                       onChange={(e) => setFormData({...formData, code: e.target.value.toUpperCase()})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="e.g., SAVE20"
                       required
                     />
@@ -188,7 +188,7 @@ const CouponManagement: React.FC = () => {
                     <select
                       value={formData.discount_type}
                       onChange={(e) => setFormData({...formData, discount_type: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     >
                       <option value="percentage">Percentage (%)</option>
                       <option value="fixed">Fixed Amount (₹)</option>
@@ -204,7 +204,7 @@ const CouponManagement: React.FC = () => {
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     rows={2}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     placeholder="e.g., Get 20% off on your first order"
                     required
                   />
@@ -220,7 +220,7 @@ const CouponManagement: React.FC = () => {
                       step="0.01"
                       value={formData.discount_value}
                       onChange={(e) => setFormData({...formData, discount_value: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -233,7 +233,7 @@ const CouponManagement: React.FC = () => {
                       type="number"
                       value={formData.min_order_amount}
                       onChange={(e) => setFormData({...formData, min_order_amount: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="0"
                     />
                   </div>
@@ -246,7 +246,7 @@ const CouponManagement: React.FC = () => {
                       type="number"
                       value={formData.max_discount_amount}
                       onChange={(e) => setFormData({...formData, max_discount_amount: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="No limit"
                     />
                   </div>
@@ -261,7 +261,7 @@ const CouponManagement: React.FC = () => {
                       type="datetime-local"
                       value={formData.valid_from}
                       onChange={(e) => setFormData({...formData, valid_from: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -274,7 +274,7 @@ const CouponManagement: React.FC = () => {
                       type="datetime-local"
                       value={formData.valid_until}
                       onChange={(e) => setFormData({...formData, valid_until: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -289,7 +289,7 @@ const CouponManagement: React.FC = () => {
                       type="number"
                       value={formData.usage_limit}
                       onChange={(e) => setFormData({...formData, usage_limit: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       placeholder="Unlimited"
                     />
                   </div>
@@ -299,7 +299,7 @@ const CouponManagement: React.FC = () => {
                       type="checkbox"
                       checked={formData.is_active}
                       onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                      className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
                     />
                     <label className="ml-2 block text-sm text-gray-700">
                       Active
@@ -311,7 +311,7 @@ const CouponManagement: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-pink-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
+                    className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
                   >
                     <Save className="h-5 w-5" />
                     <span>{isSubmitting ? 'Saving...' : editingCoupon ? 'Update' : 'Create'}</span>
@@ -347,7 +347,7 @@ const CouponManagement: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-purple-500 flex items-center justify-center">
                       <Tag className="h-5 w-5 text-white" />
                     </div>
                   </div>
@@ -375,7 +375,7 @@ const CouponManagement: React.FC = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Discount:</span>
-                  <span className="font-semibold text-pink-600">
+                  <span className="font-semibold text-red-600">
                     {coupon.discount_type === 'percentage'
                       ? `${coupon.discount_value}%`
                       : `₹${coupon.discount_value}`}

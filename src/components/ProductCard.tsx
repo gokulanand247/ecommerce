@@ -97,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
             alt={product.name}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute top-2 left-2 bg-pink-600 text-white text-xs font-bold px-2 py-1 rounded">
+          <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
             {product.discount}% OFF
           </div>
         </div>
@@ -105,7 +105,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
         {/* Product Info */}
         <div className="p-3 md:p-4">
           <h3 
-            className="font-semibold text-gray-900 mb-2 text-sm md:text-base line-clamp-2 cursor-pointer hover:text-pink-600"
+            className="font-semibold text-gray-900 mb-2 text-sm md:text-base line-clamp-2 cursor-pointer hover:text-red-600"
             onClick={() => onProductClick(product.id)}
           >
             {product.name}
@@ -126,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
           {/* Price */}
           <div className="flex items-center justify-between mb-3">
             <div>
-              <span className="text-lg font-bold text-pink-600">₹{product.price}</span>
+              <span className="text-lg font-bold text-red-600">₹{product.price}</span>
               <span className="text-sm text-gray-500 line-through ml-2">₹{product.mrp}</span>
             </div>
           </div>
@@ -135,7 +135,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
           <button
             onClick={handleAddToCart}
             disabled={product.stock_quantity === 0}
-            className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-md transition-colors flex items-center justify-center space-x-2"
+            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-md transition-colors flex items-center justify-center space-x-2"
           >
             <ShoppingCart className="h-4 w-4" />
             <span className="text-sm">
@@ -163,7 +163,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
                     onClick={() => setSelectedSize(size)}
                     className={`px-3 py-2 border rounded-md text-sm font-medium transition-colors ${
                       selectedSize === size
-                        ? 'border-pink-600 bg-pink-50 text-pink-600'
+                        ? 'border-red-600 bg-red-50 text-red-600'
                         : 'border-gray-300 text-gray-700 hover:border-gray-400'
                     }`}
                   >
@@ -186,7 +186,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
                       onClick={() => setSelectedColor(color)}
                       className={`px-3 py-2 border rounded-md text-sm font-medium transition-colors ${
                         selectedColor === color
-                          ? 'border-pink-600 bg-pink-50 text-pink-600'
+                          ? 'border-red-600 bg-red-50 text-red-600'
                           : 'border-gray-300 text-gray-700 hover:border-gray-400'
                       }`}
                     >
@@ -210,7 +210,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
               </button>
               <button
                 onClick={handleSizeModalConfirm}
-                className="flex-1 bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 rounded-md transition-colors"
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-md transition-colors"
               >
                 Add to Cart
               </button>

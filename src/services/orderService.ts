@@ -112,21 +112,32 @@ export const createOrder = async (
     }
 
     for (const item of allOrderItems) {
-      const { data: product } = await supabase
+      const { data: product, error: fetchError } = await supabase
         .from('products')
         .select('stock, stock_quantity')
         .eq('id', item.product_id)
         .single();
 
+      if (fetchError) {
+        console.error('Error fetching product stock:', fetchError);
+        continue;
+      }
+
       if (product) {
-        const newStock = (product.stock || 0) - item.quantity;
-        await supabase
+        const currentStock = product.stock_quantity || product.stock || 0;
+        const newStock = Math.max(0, currentStock - item.quantity);
+
+        const { error: updateError } = await supabase
           .from('products')
           .update({
             stock: newStock,
             stock_quantity: newStock
           })
           .eq('id', item.product_id);
+
+        if (updateError) {
+          console.error('Error updating product stock:', updateError);
+        }
       }
     }
 

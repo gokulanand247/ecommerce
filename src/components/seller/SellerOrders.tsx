@@ -81,7 +81,7 @@ const SellerOrders: React.FC<SellerOrdersProps> = ({ sellerId }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -140,7 +140,7 @@ const SellerOrders: React.FC<SellerOrdersProps> = ({ sellerId }) => {
                       )}
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-bold text-pink-600">₹{orderItem.price * orderItem.quantity}</p>
+                      <p className="text-lg font-bold text-red-600">₹{orderItem.price * orderItem.quantity}</p>
                     </div>
                   </div>
                 </div>

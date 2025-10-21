@@ -119,7 +119,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
               </p>
             </section>
 
-            <section className="bg-pink-50 border border-pink-200 rounded-lg p-6">
+            <section className="bg-red-50 border border-red-200 rounded-lg p-6">
               <h2 className="text-xl font-semibold mb-3">Contact Us</h2>
               <p className="text-gray-600">
                 If you have questions or concerns about this Privacy Policy or our data practices, please contact our customer support team.

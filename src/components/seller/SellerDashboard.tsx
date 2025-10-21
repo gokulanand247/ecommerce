@@ -44,7 +44,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
           </p>
           <button
             onClick={onLogout}
-            className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Logout
           </button>
@@ -55,7 +55,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-pink-600 to-orange-600 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -63,7 +63,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
                 <Store className="h-6 w-6" />
                 <h1 className="text-2xl font-bold">Seller Dashboard</h1>
               </div>
-              <p className="text-pink-100">
+              <p className="text-red-100">
                 {currentSeller.shop_name} ({currentSeller.username})
               </p>
               <div className="flex items-center space-x-2 mt-1">
@@ -73,7 +73,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
             </div>
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 bg-white text-pink-600 px-4 py-2 rounded-lg hover:bg-pink-50 transition-colors"
+              className="flex items-center space-x-2 bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
@@ -89,7 +89,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
               onClick={() => setActiveTab('products')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
                 activeTab === 'products'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -100,7 +100,7 @@ const SellerDashboard: React.FC<SellerDashboardProps> = ({ seller, onLogout }) =
               onClick={() => setActiveTab('orders')}
               className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
                 activeTab === 'orders'
-                  ? 'border-pink-600 text-pink-600'
+                  ? 'border-red-600 text-red-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >

@@ -41,7 +41,7 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
 
   if (loading) {
     return (
-      <section className="py-12 bg-gradient-to-r from-pink-50 to-purple-50">
+      <section className="py-12 bg-gradient-to-r from-red-50 to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-8"></div>
@@ -62,13 +62,13 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
   if (sellers.length === 0) return null;
 
   return (
-    <section className="py-12 bg-gradient-to-r from-pink-50 to-purple-50">
+    <section className="py-12 bg-gradient-to-r from-red-50 to-purple-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Shop by Store</h2>
           <button
             onClick={() => onStoreClick('')}
-            className="flex items-center space-x-2 text-pink-600 hover:text-pink-700 font-semibold transition-colors"
+            className="flex items-center space-x-2 text-red-600 hover:text-red-700 font-semibold transition-colors"
           >
             <span className="hidden sm:inline">See All Stores</span>
             <span className="sm:hidden">More</span>
@@ -84,14 +84,14 @@ const StoreCategories: React.FC<StoreCategoriesProps> = ({ onStoreClick }) => {
               className="flex flex-col items-center cursor-pointer group"
             >
               <div className="relative mb-3">
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110 bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg group-hover:shadow-xl transition-all group-hover:scale-110 bg-gradient-to-br from-red-400 to-purple-500 flex items-center justify-center">
                   <Store className="h-12 w-12 text-white" />
                 </div>
-                <div className="absolute -bottom-1 -right-1 bg-pink-600 rounded-full p-2 shadow-lg">
+                <div className="absolute -bottom-1 -right-1 bg-red-600 rounded-full p-2 shadow-lg">
                   <Store className="h-4 w-4 text-white" />
                 </div>
               </div>
-              <h3 className="font-semibold text-gray-900 text-center group-hover:text-pink-600 transition-colors">
+              <h3 className="font-semibold text-gray-900 text-center group-hover:text-red-600 transition-colors">
                 {seller.shop_name}
               </h3>
               {seller.city && (

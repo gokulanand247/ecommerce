@@ -40,7 +40,7 @@ const SellerLogin: React.FC<SellerLoginProps> = ({ onClose, onLoginSuccess }) =>
       <div className="bg-white rounded-lg max-w-md w-full p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2">
-            <Store className="h-6 w-6 text-pink-600" />
+            <Store className="h-6 w-6 text-red-600" />
             <h2 className="text-2xl font-bold text-gray-900">Seller Login</h2>
           </div>
           <button
@@ -66,7 +66,7 @@ const SellerLogin: React.FC<SellerLoginProps> = ({ onClose, onLoginSuccess }) =>
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Enter your username"
               required
             />
@@ -80,7 +80,7 @@ const SellerLogin: React.FC<SellerLoginProps> = ({ onClose, onLoginSuccess }) =>
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Enter your password"
               required
             />
@@ -89,7 +89,7 @@ const SellerLogin: React.FC<SellerLoginProps> = ({ onClose, onLoginSuccess }) =>
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-lg transition-all"
+            className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-lg transition-all"
           >
             {isLoading ? 'Logging in...' : 'Login'}
           </button>

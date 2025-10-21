@@ -53,10 +53,10 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, onProd
   if (featuredProducts.length === 0) return null;
 
   return (
-    <section className="py-12 bg-gradient-to-b from-white to-pink-50">
+    <section className="py-12 bg-gradient-to-b from-white to-red-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-center mb-8">
-          <TrendingUp className="h-8 w-8 text-pink-600 mr-3" />
+          <TrendingUp className="h-8 w-8 text-red-600 mr-3" />
           <h2 className="text-3xl font-bold text-gray-900">Featured Products</h2>
           <Star className="h-8 w-8 text-yellow-500 ml-3 fill-yellow-500" />
         </div>
@@ -68,7 +68,7 @@ const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onAddToCart, onProd
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProducts.map((product) => (
             <div key={product.id} className="relative group">
-              <div className="absolute -top-2 -right-2 z-10 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+              <div className="absolute -top-2 -right-2 z-10 bg-gradient-to-r from-red-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                 Featured
               </div>
               <ProductCard

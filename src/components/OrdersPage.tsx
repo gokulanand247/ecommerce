@@ -75,7 +75,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -91,7 +91,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
             onClick={onBack}
-            className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+            className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span>Back to Home</span>
@@ -109,7 +109,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
             <p className="text-gray-600 mb-6">Start shopping to see your orders here</p>
             <button
               onClick={onBack}
-              className="bg-pink-600 text-white px-6 py-3 rounded-md hover:bg-pink-700 transition-colors"
+              className="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors"
             >
               Start Shopping
             </button>
@@ -142,7 +142,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="flex items-center space-x-2">
-                      <p className="text-2xl font-bold text-pink-600">₹{order.total_amount}</p>
+                      <p className="text-2xl font-bold text-red-600">₹{order.total_amount}</p>
                       {order.discount_amount && order.discount_amount > 0 && (
                         <span className="text-sm text-gray-500 line-through">₹{order.subtotal}</span>
                       )}
@@ -160,7 +160,7 @@ const OrdersPage: React.FC<OrdersPageProps> = ({ user, onBack }) => {
                   </div>
                   <button
                     onClick={() => setSelectedOrder(order)}
-                    className="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors"
+                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
                   >
                     Track Order
                   </button>
@@ -180,7 +180,7 @@ const OrderTracking: React.FC<{ order: Order; onBack: () => void }> = ({ order, 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -192,7 +192,7 @@ const OrderTracking: React.FC<{ order: Order; onBack: () => void }> = ({ order, 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
             onClick={onBack}
-            className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+            className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span>Back to Orders</span>
@@ -208,7 +208,7 @@ const OrderTracking: React.FC<{ order: Order; onBack: () => void }> = ({ order, 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Order Total</h3>
-              <p className="text-2xl font-bold text-pink-600">₹{order.total_amount}</p>
+              <p className="text-2xl font-bold text-red-600">₹{order.total_amount}</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Order Date</h3>
@@ -245,7 +245,7 @@ const OrderTracking: React.FC<{ order: Order; onBack: () => void }> = ({ order, 
               {tracking.map((track, index) => (
                 <div key={track.id} className="flex items-start space-x-4">
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    index === 0 ? 'bg-pink-600' : 'bg-gray-300'
+                    index === 0 ? 'bg-red-600' : 'bg-gray-300'
                   }`}>
                     {index === 0 ? (
                       <CheckCircle className="h-5 w-5 text-white" />
@@ -256,7 +256,7 @@ const OrderTracking: React.FC<{ order: Order; onBack: () => void }> = ({ order, 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <h3 className={`text-sm font-medium ${
-                        index === 0 ? 'text-pink-600' : 'text-gray-900'
+                        index === 0 ? 'text-red-600' : 'text-gray-900'
                       }`}>
                         {track.message}
                       </h3>

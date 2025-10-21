@@ -127,7 +127,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, userId, onReviewAdde
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               rows={4}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Share your experience with this product..."
             />
           </div>
@@ -143,7 +143,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ productId, userId, onReviewAdde
             <button
               type="submit"
               disabled={isSubmitting || rating === 0}
-              className="flex-1 bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-2 rounded-md transition-colors"
+              className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-semibold py-2 rounded-md transition-colors"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Review'}
             </button>

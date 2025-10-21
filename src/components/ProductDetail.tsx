@@ -85,7 +85,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
   if (productLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -97,7 +97,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
           <p className="text-gray-600 mb-4">Product not found</p>
           <button
             onClick={handleBack}
-            className="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700"
+            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
           >
             Go Back
           </button>
@@ -174,7 +174,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
             onClick={handleBack}
-            className="flex items-center space-x-2 text-gray-600 hover:text-pink-600 transition-colors"
+            className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span>Back to Products</span>
@@ -200,7 +200,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`aspect-square overflow-hidden rounded-md border-2 ${
-                      selectedImage === index ? 'border-pink-600' : 'border-gray-200'
+                      selectedImage === index ? 'border-red-600' : 'border-gray-200'
                     }`}
                   >
                     <img
@@ -251,7 +251,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             {/* Price */}
             <div className="space-y-2">
               <div className="flex items-center space-x-3">
-                <span className="text-3xl font-bold text-pink-600">₹{product.price}</span>
+                <span className="text-3xl font-bold text-red-600">₹{product.price}</span>
                 <span className="text-xl text-gray-500 line-through">₹{product.mrp}</span>
                 <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-semibold">
                   {product.discount}% OFF
@@ -276,7 +276,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors ${
                         selectedSize === size
-                          ? 'border-pink-600 bg-pink-50 text-pink-600'
+                          ? 'border-red-600 bg-red-50 text-red-600'
                           : 'border-gray-300 text-gray-700 hover:border-gray-400'
                       }`}
                     >
@@ -298,7 +298,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
                       onClick={() => setSelectedColor(color)}
                       className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors ${
                         selectedColor === color
-                          ? 'border-pink-600 bg-pink-50 text-pink-600'
+                          ? 'border-red-600 bg-red-50 text-red-600'
                           : 'border-gray-300 text-gray-700 hover:border-gray-400'
                       }`}
                     >
@@ -321,7 +321,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             <button
               onClick={handleAddToCart}
               disabled={product.stock_quantity === 0}
-              className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-md transition-colors flex items-center justify-center space-x-2"
+              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-md transition-colors flex items-center justify-center space-x-2"
             >
               <ShoppingCart className="h-5 w-5" />
               <span>
@@ -386,19 +386,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             <h3 className="font-semibold text-lg mb-3">Product Features</h3>
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start">
-                <Package className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <Package className="h-5 w-5 text-red-600 mr-2 mt-0.5 flex-shrink-0" />
                 <span>Premium quality fabric for long-lasting wear</span>
               </li>
               <li className="flex items-start">
-                <Shield className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <Shield className="h-5 w-5 text-red-600 mr-2 mt-0.5 flex-shrink-0" />
                 <span>100% authentic and verified product</span>
               </li>
               <li className="flex items-start">
-                <Truck className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <Truck className="h-5 w-5 text-red-600 mr-2 mt-0.5 flex-shrink-0" />
                 <span>Free shipping on all orders</span>
               </li>
               <li className="flex items-start">
-                <RotateCcw className="h-5 w-5 text-pink-600 mr-2 mt-0.5 flex-shrink-0" />
+                <RotateCcw className="h-5 w-5 text-red-600 mr-2 mt-0.5 flex-shrink-0" />
                 <span>7-day easy return and exchange policy</span>
               </li>
             </ul>
@@ -432,7 +432,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
             {user && (
               <button
                 onClick={() => setShowReviewForm(true)}
-                className="flex items-center space-x-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-md transition-colors"
+                className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
               >
                 <MessageSquare className="h-4 w-4" />
                 <span>Write a Review</span>
@@ -441,7 +441,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId, onAddToCart, o
           </div>
           {reviewsLoading ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600 mx-auto"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto"></div>
             </div>
           ) : reviews.length > 0 ? (
             <div className="space-y-6">

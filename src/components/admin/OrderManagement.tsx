@@ -62,7 +62,7 @@ const OrderManagement: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -82,7 +82,7 @@ const OrderManagement: React.FC = () => {
               key={order.id}
               onClick={() => setSelectedOrder(order)}
               className={`bg-white rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition-all ${
-                selectedOrder?.id === order.id ? 'ring-2 ring-pink-600' : ''
+                selectedOrder?.id === order.id ? 'ring-2 ring-red-600' : ''
               }`}
             >
               <div className="flex items-center justify-between mb-3">
@@ -122,7 +122,7 @@ const OrderManagement: React.FC = () => {
             <h3 className="text-xl font-bold text-gray-900 mb-4">Order Details</h3>
 
             {/* Status Update */}
-            <div className="mb-6 p-4 bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg">
+            <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-purple-50 rounded-lg">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Update Order Status
               </label>
@@ -130,7 +130,7 @@ const OrderManagement: React.FC = () => {
                 value={selectedOrder.status}
                 onChange={(e) => handleStatusUpdate(selectedOrder.id, e.target.value)}
                 disabled={updatingStatus}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white"
               >
                 {orderStatuses.map(status => (
                   <option key={status.value} value={status.value}>
@@ -146,7 +146,7 @@ const OrderManagement: React.FC = () => {
             {/* Customer Info */}
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                <User className="h-5 w-5 mr-2 text-pink-600" />
+                <User className="h-5 w-5 mr-2 text-red-600" />
                 Customer Information
               </h4>
               <div className="space-y-2 text-sm">
@@ -160,7 +160,7 @@ const OrderManagement: React.FC = () => {
             {selectedOrder.addresses && (
               <div className="mb-6">
                 <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-pink-600" />
+                  <MapPin className="h-5 w-5 mr-2 text-red-600" />
                   Delivery Address
                 </h4>
                 <div className="text-sm text-gray-600 space-y-1">
@@ -176,7 +176,7 @@ const OrderManagement: React.FC = () => {
             {/* Order Items */}
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                <Package className="h-5 w-5 mr-2 text-pink-600" />
+                <Package className="h-5 w-5 mr-2 text-red-600" />
                 Order Items
               </h4>
               <div className="space-y-3">
@@ -213,7 +213,7 @@ const OrderManagement: React.FC = () => {
             {/* Payment Info */}
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                <CreditCard className="h-5 w-5 mr-2 text-pink-600" />
+                <CreditCard className="h-5 w-5 mr-2 text-red-600" />
                 Payment Information
               </h4>
               <div className="space-y-2 text-sm">
@@ -236,7 +236,7 @@ const OrderManagement: React.FC = () => {
                 )}
                 <div className="flex justify-between font-semibold text-lg border-t pt-2">
                   <span>Total:</span>
-                  <span className="text-pink-600">₹{selectedOrder.total_amount}</span>
+                  <span className="text-red-600">₹{selectedOrder.total_amount}</span>
                 </div>
                 <p className="text-gray-600">
                   Payment Status: <span className={`font-semibold ${selectedOrder.payment_status === 'completed' ? 'text-green-600' : 'text-yellow-600'}`}>

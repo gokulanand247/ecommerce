@@ -27,7 +27,7 @@ const Categories: React.FC<CategoriesProps> = ({ selectedCategory, onCategoryCha
               onClick={(e) => handleCategoryChange(e, category.id)}
               className={`flex items-center justify-center space-x-2 px-4 sm:px-6 py-3 rounded-full font-semibold transition-all text-sm sm:text-base ${
                 selectedCategory === category.id
-                  ? 'bg-pink-600 text-white shadow-lg'
+                  ? 'bg-red-600 text-white shadow-lg'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >

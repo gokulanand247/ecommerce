@@ -26,12 +26,12 @@ const OffersSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-8 bg-gradient-to-r from-pink-50 to-purple-50">
+    <section className="py-8 bg-gradient-to-r from-red-50 to-purple-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {offers.map((offer, index) => (
             <div key={index} className="text-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-              <div className="text-pink-600 flex justify-center mb-3">
+              <div className="text-red-600 flex justify-center mb-3">
                 {offer.icon}
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">{offer.title}</h3>

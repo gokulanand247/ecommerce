@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center cursor-pointer" onClick={onHomeClick}>
-            <h1 className="text-2xl font-bold text-pink-600">DressHub</h1>
+            <h1 className="text-2xl font-bold text-red-600">DressHub</h1>
           </div>
 
           {/* Search Bar - Hidden on mobile */}
@@ -59,11 +59,11 @@ const Header: React.FC<HeaderProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-red-500"
               />
               <button
                 onClick={handleSearch}
-                className="bg-pink-600 text-white px-6 py-2 rounded-r-md hover:bg-pink-700 transition-colors"
+                className="bg-red-600 text-white px-6 py-2 rounded-r-md hover:bg-red-700 transition-colors"
               >
                 Search
               </button>
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderProps> = ({
             <button
               onClick={onHomeClick}
               className={`flex items-center space-x-2 transition-colors ${
-                currentView === 'home' ? 'text-pink-600' : 'text-gray-700 hover:text-pink-600'
+                currentView === 'home' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'
               }`}
             >
               <Home className="h-5 w-5" />
@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
 <button
   onClick={onStoreClick}
   className={`flex items-center space-x-2 transition-colors ${
-    currentView === 'store' ? 'text-pink-600' : 'text-gray-700 hover:text-pink-600'
+    currentView === 'store' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'
   }`}
 >
   <Package className="h-5 w-5" />
@@ -101,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({
                 <button
                   onClick={onOrdersClick}
                   className={`flex items-center space-x-2 transition-colors ${
-                    currentView === 'orders' ? 'text-pink-600' : 'text-gray-700 hover:text-pink-600'
+                    currentView === 'orders' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'
                   }`}
                 >
                   <Package className="h-5 w-5" />
@@ -109,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
 
                 <div className="relative group">
-                  <button className="flex items-center space-x-2 text-gray-700 hover:text-pink-600 transition-colors">
+                  <button className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors">
                     <Phone className="h-5 w-5" />
                     <span className="hidden sm:inline">{user.phone}</span>
                   </button>
@@ -129,7 +129,7 @@ const Header: React.FC<HeaderProps> = ({
             ) : (
               <button
                 onClick={onAuthClick}
-                className="flex items-center space-x-2 text-gray-700 hover:text-pink-600 transition-colors"
+                className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors"
               >
                 <User className="h-5 w-5" />
                 <span className="hidden sm:inline">Login</span>
@@ -139,11 +139,11 @@ const Header: React.FC<HeaderProps> = ({
             {/* Cart */}
             <button
               onClick={onCartClick}
-              className="relative flex items-center space-x-2 text-gray-700 hover:text-pink-600 transition-colors"
+              className="relative flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors"
             >
               <ShoppingCart className="h-5 w-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -163,11 +163,11 @@ const Header: React.FC<HeaderProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-red-500"
             />
             <button
               onClick={handleSearch}
-              className="bg-pink-600 text-white px-4 py-2 rounded-r-md hover:bg-pink-700 transition-colors"
+              className="bg-red-600 text-white px-4 py-2 rounded-r-md hover:bg-red-700 transition-colors"
             >
               Search
             </button>

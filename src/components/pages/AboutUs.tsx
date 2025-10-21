@@ -27,8 +27,8 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
 
             <div className="grid md:grid-cols-2 gap-6 my-8">
               <div className="flex items-start space-x-4">
-                <div className="bg-pink-100 p-3 rounded-lg">
-                  <Heart className="h-6 w-6 text-pink-600" />
+                <div className="bg-red-100 p-3 rounded-lg">
+                  <Heart className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Our Mission</h3>
@@ -37,8 +37,8 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-pink-100 p-3 rounded-lg">
-                  <Users className="h-6 w-6 text-pink-600" />
+                <div className="bg-red-100 p-3 rounded-lg">
+                  <Users className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Our Community</h3>
@@ -47,8 +47,8 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-pink-100 p-3 rounded-lg">
-                  <Award className="h-6 w-6 text-pink-600" />
+                <div className="bg-red-100 p-3 rounded-lg">
+                  <Award className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Quality Promise</h3>
@@ -57,8 +57,8 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-pink-100 p-3 rounded-lg">
-                  <ShoppingBag className="h-6 w-6 text-pink-600" />
+                <div className="bg-red-100 p-3 rounded-lg">
+                  <ShoppingBag className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Wide Selection</h3>
@@ -85,7 +85,7 @@ const AboutUs: React.FC<AboutUsProps> = ({ onBack }) => {
               <li>Dedicated customer support</li>
             </ul>
 
-            <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 mt-8">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 mt-8">
               <h3 className="font-semibold text-lg mb-2">Get in Touch</h3>
               <p className="text-gray-600">
                 Have questions or suggestions? We'd love to hear from you! Our customer support team is always ready to help you with any queries.

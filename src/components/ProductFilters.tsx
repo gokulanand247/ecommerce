@@ -62,7 +62,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <button
           onClick={handleOpenModal}
-          className="w-full flex items-center justify-center gap-2 bg-pink-600 text-white px-4 py-2.5 rounded-md hover:bg-pink-700 transition-colors"
+          className="w-full flex items-center justify-center gap-2 bg-red-600 text-white px-4 py-2.5 rounded-md hover:bg-red-700 transition-colors"
         >
           <SlidersHorizontal className="h-5 w-5" />
           <span className="font-medium">Filters & Sort</span>
@@ -74,7 +74,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
               <h3 className="text-xl font-semibold flex items-center gap-2">
-                <SlidersHorizontal className="h-5 w-5 text-pink-600" />
+                <SlidersHorizontal className="h-5 w-5 text-red-600" />
                 Filters & Sort
               </h3>
               <button
@@ -93,7 +93,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <select
                   value={tempCategory}
                   onChange={(e) => setTempCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                   <option value="all">All Categories</option>
                   {categories.map((cat) => (
@@ -115,7 +115,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                       placeholder="Min"
                       value={tempPriceRange[0]}
                       onChange={(e) => setTempPriceRange([parseInt(e.target.value) || 0, tempPriceRange[1]])}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
                   <span className="text-gray-500 font-medium">to</span>
@@ -125,7 +125,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                       placeholder="Max"
                       value={tempPriceRange[1]}
                       onChange={(e) => setTempPriceRange([tempPriceRange[0], parseInt(e.target.value) || 10000])}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
                 </div>
@@ -138,7 +138,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <select
                   value={tempSortBy}
                   onChange={(e) => setTempSortBy(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                   <option value="newest">Newest First</option>
                   <option value="price_low">Price: Low to High</option>
@@ -155,7 +155,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
                 <select
                   value={tempMinRating}
                   onChange={(e) => setTempMinRating(parseFloat(e.target.value))}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                 >
                   <option value="0">All Ratings</option>
                   <option value="4">4 stars & Above</option>
@@ -175,7 +175,7 @@ const ProductFilters: React.FC<ProductFiltersProps> = ({
               </button>
               <button
                 onClick={handleApplyFilters}
-                className="flex-1 px-4 py-2.5 bg-pink-600 text-white rounded-md hover:bg-pink-700 font-medium transition-colors"
+                className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-md hover:bg-red-700 font-medium transition-colors"
               >
                 Apply Filters
               </button>

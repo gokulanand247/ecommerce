@@ -117,7 +117,7 @@ const DealsManagement: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -131,7 +131,7 @@ const DealsManagement: React.FC = () => {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-pink-700 hover:to-purple-700 transition-all"
+          className="flex items-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-red-700 hover:to-purple-700 transition-all"
         >
           <Plus className="h-5 w-5" />
           <span>Add Deal</span>
@@ -159,7 +159,7 @@ const DealsManagement: React.FC = () => {
                   <select
                     value={formData.product_id}
                     onChange={(e) => setFormData({...formData, product_id: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     required
                   >
                     <option value="">Select a product</option>
@@ -182,7 +182,7 @@ const DealsManagement: React.FC = () => {
                       max="100"
                       value={formData.discount_percentage}
                       onChange={(e) => setFormData({...formData, discount_percentage: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -195,7 +195,7 @@ const DealsManagement: React.FC = () => {
                       type="number"
                       value={formData.sort_order}
                       onChange={(e) => setFormData({...formData, sort_order: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
 
@@ -204,7 +204,7 @@ const DealsManagement: React.FC = () => {
                       type="checkbox"
                       checked={formData.is_active}
                       onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                      className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
+                      className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
                     />
                     <label className="ml-2 block text-sm text-gray-700">
                       Active
@@ -221,7 +221,7 @@ const DealsManagement: React.FC = () => {
                       type="datetime-local"
                       value={formData.valid_from}
                       onChange={(e) => setFormData({...formData, valid_from: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -234,7 +234,7 @@ const DealsManagement: React.FC = () => {
                       type="datetime-local"
                       value={formData.valid_until}
                       onChange={(e) => setFormData({...formData, valid_until: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                       required
                     />
                   </div>
@@ -244,7 +244,7 @@ const DealsManagement: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-pink-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
+                    className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-red-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-red-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 transition-all"
                   >
                     <Save className="h-5 w-5" />
                     <span>{isSubmitting ? 'Saving...' : editingDeal ? 'Update' : 'Create'}</span>
@@ -288,7 +288,7 @@ const DealsManagement: React.FC = () => {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
                     <Zap className="h-5 w-5 text-yellow-500" />
-                    <span className="text-2xl font-bold text-pink-600">{deal.discount_percentage}% OFF</span>
+                    <span className="text-2xl font-bold text-red-600">{deal.discount_percentage}% OFF</span>
                   </div>
                   <div className="flex space-x-2">
                     <button

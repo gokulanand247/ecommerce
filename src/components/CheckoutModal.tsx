@@ -121,7 +121,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
           address: `${selectedAddr.street}, ${selectedAddr.city}`
         },
         theme: {
-          color: '#EC4899'
+          color: '#dc2626'
         },
         modal: {
           ondismiss: function() {
@@ -176,7 +176,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   key={address.id}
                   className={`border rounded-lg p-4 cursor-pointer transition-colors ${
                     selectedAddress === address.id
-                      ? 'border-pink-600 bg-pink-50'
+                      ? 'border-red-600 bg-red-50'
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
                   onClick={() => setSelectedAddress(address.id)}
@@ -206,7 +206,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 {!showAddressForm ? (
                   <button
                     onClick={() => setShowAddressForm(true)}
-                    className="flex items-center space-x-2 text-pink-600 hover:text-pink-700"
+                    className="flex items-center space-x-2 text-red-600 hover:text-red-700"
                   >
                     <Plus className="h-5 w-5" />
                     <span>Add New Address</span>
@@ -220,14 +220,14 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                         placeholder="Full Name"
                         value={newAddress.name}
                         onChange={(e) => setNewAddress({ ...newAddress, name: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
                       <input
                         type="tel"
                         placeholder="Phone Number"
                         value={newAddress.phone}
                         onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
                     </div>
                     <input
@@ -235,7 +235,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       placeholder="Street Address"
                       value={newAddress.street}
                       onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                     <div className="grid grid-cols-3 gap-3">
                       <input
@@ -243,21 +243,21 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                         placeholder="City"
                         value={newAddress.city}
                         onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
                       <input
                         type="text"
                         placeholder="State"
                         value={newAddress.state}
                         onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
                       <input
                         type="text"
                         placeholder="Pincode"
                         value={newAddress.pincode}
                         onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
                     </div>
                     <div className="flex space-x-3">
@@ -269,7 +269,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       </button>
                       <button
                         onClick={handleAddAddress}
-                        className="flex-1 bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-md"
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-md"
                       >
                         Add Address
                       </button>
@@ -302,12 +302,12 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
               {/* Payment Method */}
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="font-semibold mb-3">Payment Method</h3>
-                <div className="flex items-center space-x-3 p-4 border-2 border-pink-600 bg-pink-50 rounded-lg">
-                  <CreditCard className="h-8 w-8 text-pink-600 flex-shrink-0" />
+                <div className="flex items-center space-x-3 p-4 border-2 border-red-600 bg-red-50 rounded-lg">
+                  <CreditCard className="h-8 w-8 text-red-600 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold text-pink-900">Secure Payment via Razorpay</p>
-                    <p className="text-sm text-pink-700">Credit/Debit Card, UPI, Net Banking, Wallets</p>
-                    <p className="text-xs text-pink-600 mt-1">100% Secure & Encrypted</p>
+                    <p className="font-semibold text-red-900">Secure Payment via Razorpay</p>
+                    <p className="text-sm text-red-700">Credit/Debit Card, UPI, Net Banking, Wallets</p>
+                    <p className="text-xs text-red-600 mt-1">100% Secure & Encrypted</p>
                   </div>
                 </div>
               </div>
@@ -321,7 +321,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <button
               onClick={() => setStep('payment')}
               disabled={!selectedAddress}
-              className="w-full bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors"
+              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors"
             >
               Continue to Payment
             </button>
@@ -336,7 +336,7 @@ const CheckoutModal: React.FC<CheckoutModalProps> = ({
               <button
                 onClick={handlePayment}
                 disabled={isProcessing}
-                className="flex-1 bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors"
+                className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-md transition-colors"
               >
                 {isProcessing ? 'Processing...' : `Pay ₹${totalPrice}`}
               </button>

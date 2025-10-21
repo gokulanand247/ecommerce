@@ -147,7 +147,7 @@ const Cart: React.FC<CartProps> = ({
                       </div>
                     )}
                     <div className="flex items-center space-x-2">
-                      <p className="text-pink-600 font-semibold">₹{item.price}</p>
+                      <p className="text-red-600 font-semibold">₹{item.price}</p>
                       {item.mrp > item.price && (
                         <p className="text-gray-400 line-through text-sm">₹{item.mrp}</p>
                       )}
@@ -213,7 +213,7 @@ const Cart: React.FC<CartProps> = ({
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
                         placeholder="Enter code"
-                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm"
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
                       />
                     </div>
                     <button
@@ -257,11 +257,11 @@ const Cart: React.FC<CartProps> = ({
             <div className="border-t pt-3">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-lg font-bold">Total Amount</span>
-                <span className="text-lg font-bold text-pink-600">₹{totalPrice.toFixed(2)}</span>
+                <span className="text-lg font-bold text-red-600">₹{totalPrice.toFixed(2)}</span>
               </div>
               <button
                 onClick={onCheckout}
-                className="w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-md transition-colors"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-md transition-colors"
               >
                 Proceed to Checkout
               </button>

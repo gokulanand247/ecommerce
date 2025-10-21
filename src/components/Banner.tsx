@@ -26,7 +26,7 @@ const Banner: React.FC = () => {
 
   if (loading || banners.length === 0) {
     return (
-      <section className="relative h-64 md:h-96 overflow-hidden bg-gradient-to-r from-pink-500 to-purple-600">
+      <section className="relative h-64 md:h-96 overflow-hidden bg-gradient-to-r from-red-500 to-purple-600">
         <div className="absolute inset-0 flex items-center justify-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
         </div>
@@ -35,7 +35,7 @@ const Banner: React.FC = () => {
   }
 
   return (
-    <section className="relative h-64 md:h-96 overflow-hidden bg-gradient-to-r from-pink-500 to-purple-600">
+    <section className="relative h-64 md:h-96 overflow-hidden bg-gradient-to-r from-red-500 to-purple-600">
       {banners.map((banner, index) => (
         <div
           key={banner.id}
@@ -56,7 +56,7 @@ const Banner: React.FC = () => {
                 {banner.subtitle && (
                   <p className="text-lg md:text-xl mb-6">{banner.subtitle}</p>
                 )}
-                <button className="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 px-8 rounded-full transition-colors">
+                <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-full transition-colors">
                   {banner.button_text}
                 </button>
               </div>

@@ -120,7 +120,7 @@ const FAQ: React.FC<FAQProps> = ({ onBack }) => {
 
           {categories.map((category) => (
             <div key={category} className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4 text-pink-600">{category}</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-red-600">{category}</h2>
               <div className="space-y-3">
                 {faqs
                   .filter(faq => faq.category === category)
@@ -156,7 +156,7 @@ const FAQ: React.FC<FAQProps> = ({ onBack }) => {
             </div>
           ))}
 
-          <div className="bg-pink-50 border border-pink-200 rounded-lg p-6 mt-8">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 mt-8">
             <h3 className="font-semibold text-lg mb-2">Still Have Questions?</h3>
             <p className="text-gray-600">
               If you couldn't find the answer you were looking for, please feel free to contact our customer support team. We're here to help!

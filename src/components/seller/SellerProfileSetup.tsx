@@ -64,7 +64,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-pink-600 to-orange-600 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -73,7 +73,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
             </div>
             <button
               onClick={onLogout}
-              className="flex items-center space-x-2 bg-white text-pink-600 px-4 py-2 rounded-lg hover:bg-pink-50 transition-colors"
+              className="flex items-center space-x-2 bg-white text-red-600 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
             >
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
@@ -106,7 +106,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                 type="text"
                 value={profile.shop_name}
                 onChange={(e) => setProfile({ ...profile, shop_name: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Enter your shop name"
                 required
               />
@@ -121,7 +121,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                   type="email"
                   value={profile.email}
                   onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="your@email.com"
                   required
                 />
@@ -135,7 +135,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                   type="tel"
                   value={profile.phone}
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="10-digit phone"
                   required
                 />
@@ -150,7 +150,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                 value={profile.address}
                 onChange={(e) => setProfile({ ...profile, address: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                 placeholder="Enter complete shop address"
                 required
               />
@@ -165,7 +165,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                   type="text"
                   value={profile.city}
                   onChange={(e) => setProfile({ ...profile, city: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="City"
                   required
                 />
@@ -179,7 +179,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                   type="text"
                   value={profile.state}
                   onChange={(e) => setProfile({ ...profile, state: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="State"
                   required
                 />
@@ -193,7 +193,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
                   type="text"
                   value={profile.pincode}
                   onChange={(e) => setProfile({ ...profile, pincode: e.target.value.replace(/\D/g, '').slice(0, 6) })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                   placeholder="6-digit"
                   required
                 />
@@ -204,7 +204,7 @@ const SellerProfileSetup: React.FC<SellerProfileSetupProps> = ({ seller, onCompl
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-pink-600 to-orange-600 hover:from-pink-700 hover:to-orange-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-lg transition-all"
+                className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-semibold py-3 rounded-lg transition-all"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit for Verification'}
               </button>
