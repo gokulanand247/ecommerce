@@ -32,6 +32,8 @@ import { Product, CartItem, User } from './types';
 import { useProducts } from './hooks/useSupabase';
 import { getCurrentUser, signOut } from './services/authService';
 import { saveCartToDatabase, loadCartFromDatabase, clearCartFromDatabase } from './services/cartService';
+import { createOrder } from './services/orderService';
+
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
   const [minRating, setMinRating] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [storeSearchQuery, setStoreSearchQuery] = useState('');
+  const [selectedSeller, setSelectedSeller] = useState(null);
+
 
   // Load user and cart data
   useEffect(() => {
@@ -335,22 +339,44 @@ useEffect(() => {
 
       {isCheckoutOpen && user && (
         <EnhancedCheckoutModal
-          user={user}
-          cartItems={cartItems}
-          totalPrice={getTotalPrice()}
-          onClose={() => setIsCheckoutOpen(false)}
-          onOrderComplete={async () => {
-  if (user) {
-    await clearCartFromDatabase(user.id).catch(err =>
-      console.error('Error clearing cart from DB:', err)
-    );
-  }
-  setCartItems([]);
-  setIsCheckoutOpen(false);
-  showToast('Order placed successfully!', 'success');
-}}
+  user={user}
+  cartItems={cartItems}
+  totalPrice={getTotalPrice()}
+  onClose={() => setIsCheckoutOpen(false)}
+  onOrderComplete={async (address, coupon) => {
+    if (!user) return;
 
-        />
+    try {
+      // 1️⃣ Create the order in Supabase
+      await createOrder(
+        user.id,
+        cartItems,
+        address,                     // from checkout modal
+        getTotalPrice(),             // total amount
+        coupon?.id,                  // optional coupon
+        coupon?.discountAmount,      // optional discount
+        getTotalPrice()              // subtotal
+      );
+
+      // 2️⃣ Clear the cart from the database
+      await clearCartFromDatabase(user.id);
+
+      // 3️⃣ Reset the local cart
+      setCartItems([]);
+
+      // 4️⃣ Notify success
+      showToast('Order placed successfully!', 'success');
+    } catch (error) {
+      console.error('Error creating order:', error);
+      showToast('Failed to place order. Please try again.', 'error');
+    } finally {
+      setIsCheckoutOpen(false);
+    }
+  }}
+/>
+
+
+        
       )}
 
       {currentView === 'admin' && !admin && (
