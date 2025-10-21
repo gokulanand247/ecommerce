@@ -339,11 +339,17 @@ useEffect(() => {
           cartItems={cartItems}
           totalPrice={getTotalPrice()}
           onClose={() => setIsCheckoutOpen(false)}
-          onOrderComplete={() => {
-            setCartItems([]);
-            setIsCheckoutOpen(false);
-            showToast('Order placed successfully!', 'success');
-          }}
+          onOrderComplete={async () => {
+  if (user) {
+    await clearCartFromDatabase(user.id).catch(err =>
+      console.error('Error clearing cart from DB:', err)
+    );
+  }
+  setCartItems([]);
+  setIsCheckoutOpen(false);
+  showToast('Order placed successfully!', 'success');
+}}
+
         />
       )}
 
