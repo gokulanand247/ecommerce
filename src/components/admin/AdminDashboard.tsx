@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LogOut, Package, ShoppingBag, Plus, Edit, Trash2, Image as ImageIcon, X, Save, Store, Tag, Zap } from 'lucide-react';
+import { LogOut, Package, ShoppingBag, Plus, Edit, Trash2, Image as ImageIcon, X, Save, Store, Tag, Zap, Star } from 'lucide-react';
 import { Admin, uploadProductImage } from '../../services/adminService';
 import { supabase } from '../../lib/supabase';
 import { useProducts } from '../../hooks/useSupabase';
@@ -7,13 +7,14 @@ import OrderManagement from './OrderManagement';
 import SellerManagement from './SellerManagement';
 import CouponManagement from './CouponManagement';
 import DealsManagement from './DealsManagement';
+import FeaturedStoresManagement from './FeaturedStoresManagement';
 
 interface AdminDashboardProps {
   admin: Admin;
   onLogout: () => void;
 }
 
-type TabType = 'products' | 'orders' | 'sellers' | 'coupons' | 'deals';
+type TabType = 'products' | 'orders' | 'sellers' | 'coupons' | 'deals' | 'featured';
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
   const { products, refetch } = useProducts();
@@ -266,6 +267,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
             >
               <Zap className="h-5 w-5" />
               <span className="font-medium">Deals</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('featured')}
+              className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
+                activeTab === 'featured'
+                  ? 'border-red-600 text-red-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <Star className="h-5 w-5" />
+              <span className="font-medium">Featured Stores</span>
             </button>
           </div>
         </div>
@@ -562,6 +574,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ admin, onLogout }) => {
 
         {activeTab === 'deals' && (
           <DealsManagement />
+        )}
+
+        {activeTab === 'featured' && (
+          <FeaturedStoresManagement />
         )}
       </div>
     </div>
