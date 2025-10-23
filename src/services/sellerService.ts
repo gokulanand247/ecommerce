@@ -27,13 +27,40 @@ export const sellerLogin = async (username: string, password: string): Promise<S
         p_password: password
       });
 
-    if (error) throw error;
+    if (error) {
+      console.error('Seller login RPC error:', error);
+      throw error;
+    }
+
     if (!data || data.length === 0) {
       throw new Error('Invalid username or password');
     }
 
-    return data[0];
+    const seller = data[0];
+
+    await supabase
+      .from('sellers')
+      .update({ last_login: new Date().toISOString() })
+      .eq('id', seller.seller_id);
+
+    return seller;
   } catch (error) {
+    console.error('Seller login error:', error);
+    throw error;
+  }
+};
+
+export const getSellerAnalytics = async (sellerId: string) => {
+  try {
+    const { data, error } = await supabase
+      .rpc('get_seller_analytics', {
+        p_seller_id: sellerId
+      });
+
+    if (error) throw error;
+    return data;
+  } catch (error) {
+    console.error('Error fetching seller analytics:', error);
     throw error;
   }
 };
