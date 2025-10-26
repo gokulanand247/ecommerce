@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase';
 import { User } from '../types';
 
-export const signUp = async (phone: string, name: string): Promise<User> => {
+export const signUp = async (phone: string, name: string, password: string): Promise<User> => {
   try {
     const { data: existingUser, error: checkError } = await supabase
       .from('users')
@@ -21,10 +21,11 @@ export const signUp = async (phone: string, name: string): Promise<User> => {
         {
           phone,
           name,
-          email: null
+          email: null,
+          password_hash: password
         }
       ])
-      .select()
+      .select('id, phone, name, email, created_at, updated_at')
       .single();
 
     if (createError) throw createError;
@@ -34,21 +35,24 @@ export const signUp = async (phone: string, name: string): Promise<User> => {
   }
 };
 
-export const signIn = async (phone: string): Promise<User> => {
+export const signIn = async (phone: string, password: string): Promise<User> => {
   try {
-    const { data: userData, error: userError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('phone', phone)
-      .maybeSingle();
+    const { data, error } = await supabase
+      .rpc('verify_user_login', {
+        p_phone: phone,
+        p_password: password
+      });
 
-    if (userError) throw userError;
-
-    if (!userData) {
-      throw new Error('Phone number not registered. Please sign up first.');
+    if (error) {
+      console.error('Login RPC error:', error);
+      throw error;
     }
 
-    return userData;
+    if (!data || data.length === 0) {
+      throw new Error('Invalid phone number or password');
+    }
+
+    return data[0];
   } catch (error) {
     throw error;
   }

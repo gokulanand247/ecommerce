@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Phone as PhoneIcon, User as UserIcon } from 'lucide-react';
+import { X, Phone as PhoneIcon, User as UserIcon, Lock } from 'lucide-react';
 import { signIn, signUp, setCurrentUser } from '../services/authService';
 import { User } from '../types';
 
@@ -12,6 +12,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [phone, setPhone] = useState('');
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -21,11 +22,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
       return;
     }
 
+    if (!password) {
+      setError('Please enter your password');
+      return;
+    }
+
     setError('');
     setIsLoading(true);
 
     try {
-      const user = await signIn(phone);
+      const user = await signIn(phone, password);
       setCurrentUser(user);
       setIsLoading(false);
       onLogin(user);
@@ -37,7 +43,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
   };
 
   const handleSignup = async () => {
-    if (!phone || !name) {
+    if (!phone || !name || !password) {
       setError('Please fill in all required fields');
       return;
     }
@@ -47,11 +53,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
       return;
     }
 
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
     setError('');
     setIsLoading(true);
 
     try {
-      const user = await signUp(phone, name);
+      const user = await signUp(phone, name, password);
       setCurrentUser(user);
       setIsLoading(false);
       onLogin(user);
@@ -118,6 +129,22 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
             </div>
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder={mode === 'signup' ? 'Create password (min 6 characters)' : 'Enter your password'}
+              />
+            </div>
+          </div>
+
           <button
             onClick={mode === 'login' ? handleLogin : handleSignup}
             disabled={isLoading}
@@ -133,6 +160,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLogin }) => {
                 setError('');
                 setPhone('');
                 setName('');
+                setPassword('');
               }}
               className="text-blue-600 hover:text-blue-800 text-sm font-medium"
             >

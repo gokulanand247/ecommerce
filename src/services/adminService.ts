@@ -102,11 +102,11 @@ export const uploadMultipleImages = async (files: File[]): Promise<string[]> => 
       throw new Error(`Total images size must be less than 5MB. Current size: ${(totalSize / 1024 / 1024).toFixed(2)}MB`);
     }
 
-    if (files.length > 4) {
-      throw new Error('Maximum 4 additional images allowed');
+    if (files.length > 6) {
+      throw new Error('Maximum 6 images allowed per product');
     }
 
-    const uploadPromises = files.map(file => uploadProductImage(file, 2));
+    const uploadPromises = files.map(file => uploadProductImage(file, 5));
     return await Promise.all(uploadPromises);
   } catch (error) {
     console.error('Multiple images upload failed:', error);

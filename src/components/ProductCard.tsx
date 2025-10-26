@@ -8,7 +8,7 @@ interface ProductCardProps {
   onProductClick: (productId: string) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProductClick }) => {
+const ProductCard: React.FC<ProductCardProps> = React.memo(({ product, onAddToCart, onProductClick }) => {
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [showSizeModal, setShowSizeModal] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
@@ -95,6 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
           <img
             src={mainImage}
             alt={product.name}
+            loading="lazy"
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
@@ -220,6 +221,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart, onProdu
       )}
     </>
   );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
 
 export default ProductCard;

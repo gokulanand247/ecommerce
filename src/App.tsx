@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import Header from './components/Header';
 import Banner from './components/Banner';
 import OffersSection from './components/OffersSection';
