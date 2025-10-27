@@ -149,15 +149,15 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
       name: product.name,
       description: product.description || '',
       price: product.price.toString(),
-      mrp: product.mrp.toString(),
+      mrp: (product.original_price || product.mrp || product.price).toString(),
       category: product.category,
-      image_url: product.image_url,
+      image_url: product.image_url || (product.images && product.images[0]) || '',
       sizes: product.sizes || [],
       colors: product.colors || [],
-      stock: product.stock?.toString() || '0',
-      is_active: product.is_active
+      stock: (product.stock_quantity || product.stock || 0).toString(),
+      is_active: product.is_active !== false
     });
-    setImagePreview(product.image_url);
+    setImagePreview(product.image_url || (product.images && product.images[0]) || '');
     setShowProductForm(true);
   };
 
@@ -438,10 +438,10 @@ const SellerProducts: React.FC<SellerProductsProps> = ({ sellerId }) => {
                 <h3 className="font-semibold text-lg text-gray-900 mb-2">{product.name}</h3>
                 <div className="flex items-center space-x-2 mb-2">
                   <span className="text-lg font-bold text-red-600">₹{product.price}</span>
-                  <span className="text-sm text-gray-500 line-through">₹{product.mrp}</span>
+                  <span className="text-sm text-gray-500 line-through">₹{product.original_price || product.price}</span>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">Category: {product.category}</p>
-                <p className="text-sm text-gray-600 mb-4">Stock: {product.stock || 0}</p>
+                <p className="text-sm text-gray-600 mb-2">Category: {product.category || 'N/A'}</p>
+                <p className="text-sm text-gray-600 mb-4">Stock: {product.stock_quantity || 0}</p>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEditProduct(product)}

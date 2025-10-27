@@ -14,7 +14,7 @@ interface Seller {
 interface FeaturedStore {
   id: string;
   seller_id: string;
-  sort_order: number;
+  display_order: number;
   is_active: boolean;
   sellers: Seller;
 }
@@ -49,7 +49,7 @@ const FeaturedStoresManagement: React.FC = () => {
             )
           `)
           .eq('is_active', true)
-          .order('sort_order'),
+          .order('display_order'),
         supabase
           .from('sellers')
           .select('id, shop_name, email, phone, city, is_verified')
@@ -96,7 +96,7 @@ const FeaturedStoresManagement: React.FC = () => {
         .from('featured_stores')
         .insert([{
           seller_id: selectedSellerId,
-          sort_order: nextSortOrder,
+          display_order: nextSortOrder,
           is_active: true
         }]);
 
@@ -140,13 +140,13 @@ const FeaturedStoresManagement: React.FC = () => {
     try {
       const updates = updatedStores.map((store, idx) => ({
         id: store.id,
-        sort_order: idx + 1
+        display_order: idx + 1
       }));
 
       for (const update of updates) {
         const { error } = await supabase
           .from('featured_stores')
-          .update({ sort_order: update.sort_order })
+          .update({ display_order: update.display_order })
           .eq('id', update.id);
 
         if (error) throw error;

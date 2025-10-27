@@ -3,13 +3,110 @@ import { CartItem, Address, Order } from '../types';
 
 interface OrderItem {
   product_id: string;
-  seller_id: string | null;
+  seller_id: string;
   quantity: number;
   price: number;
-  mrp: number;
-  selected_size: string;
-  selected_color: string;
+  subtotal: number;
 }
+
+export const createOrderWithRazorpay = async (
+  userId: string,
+  cartItems: CartItem[],
+  address: Address,
+  totalAmount: number,
+  couponId?: string,
+  discountAmount?: number,
+  subtotal?: number,
+  shippingFee?: number
+): Promise<{ order_id: string; razorpay_order_id: string }> => {
+  try {
+    const productIds = cartItems.map(item => item.id);
+
+    const { data: productsData, error: productsError } = await supabase
+      .from('products')
+      .select('id, seller_id, price, original_price')
+      .in('id', productIds);
+
+    if (productsError) throw productsError;
+
+    const productMap = new Map(productsData?.map(p => [p.id, p]) || []);
+
+    const orderItems: OrderItem[] = cartItems.map(item => {
+      const productData = productMap.get(item.id);
+      if (!productData || !productData.seller_id) {
+        throw new Error(`Product ${item.id} not found or has no seller`);
+      }
+      return {
+        product_id: item.id,
+        seller_id: productData.seller_id,
+        quantity: item.quantity,
+        price: item.price,
+        subtotal: item.price * item.quantity
+      };
+    });
+
+    const finalSubtotal = subtotal || orderItems.reduce((sum, item) => sum + item.subtotal, 0);
+    const finalShipping = shippingFee || 0;
+    const finalDiscount = discountAmount || 0;
+    const finalTotal = finalSubtotal + finalShipping - finalDiscount;
+
+    const itemsJson = orderItems.map(item => ({
+      product_id: item.product_id,
+      seller_id: item.seller_id,
+      quantity: item.quantity,
+      price: item.price,
+      subtotal: item.subtotal
+    }));
+
+    const razorpayOrderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    const { data, error } = await supabase.rpc('create_order_with_payment', {
+      p_user_id: userId,
+      p_address_id: address.id,
+      p_items: JSON.stringify(itemsJson),
+      p_subtotal: finalSubtotal,
+      p_shipping_fee: finalShipping,
+      p_discount: finalDiscount,
+      p_total: finalTotal,
+      p_coupon_id: couponId || null,
+      p_razorpay_order_id: razorpayOrderId
+    });
+
+    if (error) {
+      console.error('Order creation error:', error);
+      throw error;
+    }
+
+    return {
+      order_id: data,
+      razorpay_order_id: razorpayOrderId
+    };
+  } catch (error) {
+    console.error('Create order exception:', error);
+    throw error;
+  }
+};
+
+export const updatePaymentStatus = async (
+  orderId: string,
+  razorpayPaymentId: string,
+  razorpaySignature: string,
+  status: 'completed' | 'failed'
+): Promise<void> => {
+  try {
+    const { error } = await supabase.rpc('update_payment_status', {
+      p_order_id: orderId,
+      p_razorpay_payment_id: razorpayPaymentId,
+      p_razorpay_signature: razorpaySignature,
+      p_status: status
+    });
+
+    if (error) throw error;
+  } catch (error) {
+    console.error('Payment status update error:', error);
+    throw error;
+  }
+};
 
 export const createOrder = async (
   userId: string,
@@ -25,7 +122,7 @@ export const createOrder = async (
 
     const { data: productsData, error: productsError } = await supabase
       .from('products')
-      .select('id, seller_id, mrp')
+      .select('id, seller_id, original_price')
       .in('id', productIds);
 
     if (productsError) throw productsError;
@@ -34,18 +131,20 @@ export const createOrder = async (
 
     const allOrderItems: OrderItem[] = cartItems.map(item => {
       const productData = productMap.get(item.id);
+      if (!productData || !productData.seller_id) {
+        throw new Error(`Product ${item.id} not found or has no seller`);
+      }
       return {
         product_id: item.id,
-        seller_id: productData?.seller_id || null,
+        seller_id: productData.seller_id,
         quantity: item.quantity,
         price: item.price,
-        mrp: productData?.mrp || item.mrp || item.price,
-        selected_size: item.selectedSize || 'M',
-        selected_color: item.selectedColor || 'Default'
+        subtotal: item.price * item.quantity
       };
     });
 
-    const primarySellerId = allOrderItems.find(item => item.seller_id)?.seller_id || null;
+    const finalSubtotal = subtotal || allOrderItems.reduce((sum, item) => sum + item.subtotal, 0);
+    const finalDiscount = discountAmount || 0;
 
     const { data: order, error: orderError } = await supabase
       .from('orders')
@@ -53,14 +152,14 @@ export const createOrder = async (
         {
           user_id: userId,
           address_id: address.id,
-          total_amount: totalAmount,
-          subtotal: subtotal || totalAmount,
-          discount_amount: discountAmount || 0,
+          subtotal: finalSubtotal,
+          discount: finalDiscount,
+          shipping_fee: 0,
+          total: totalAmount,
           coupon_id: couponId || null,
-          seller_id: primarySellerId,
           status: 'pending',
           payment_status: 'pending',
-          expected_delivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+          payment_method: 'cod'
         }
       ])
       .select()
@@ -76,8 +175,12 @@ export const createOrder = async (
     }
 
     const orderItemsToInsert = allOrderItems.map(item => ({
-      ...item,
-      order_id: order.id
+      order_id: order.id,
+      product_id: item.product_id,
+      seller_id: item.seller_id,
+      quantity: item.quantity,
+      price: item.price,
+      subtotal: item.subtotal
     }));
 
     const { error: itemsError } = await supabase
@@ -100,47 +203,6 @@ export const createOrder = async (
         }
       ]);
 
-    if (couponId && discountAmount && discountAmount > 0) {
-      await supabase.from('coupon_usage').insert([
-        {
-          coupon_id: couponId,
-          user_id: userId,
-          order_id: order.id,
-          discount_amount: discountAmount
-        }
-      ]);
-    }
-
-    for (const item of allOrderItems) {
-      const { data: product, error: fetchError } = await supabase
-        .from('products')
-        .select('stock, stock_quantity')
-        .eq('id', item.product_id)
-        .single();
-
-      if (fetchError) {
-        console.error('Error fetching product stock:', fetchError);
-        continue;
-      }
-
-      if (product) {
-        const currentStock = product.stock_quantity || product.stock || 0;
-        const newStock = Math.max(0, currentStock - item.quantity);
-
-        const { error: updateError } = await supabase
-          .from('products')
-          .update({
-            stock: newStock,
-            stock_quantity: newStock
-          })
-          .eq('id', item.product_id);
-
-        if (updateError) {
-          console.error('Error updating product stock:', updateError);
-        }
-      }
-    }
-
     return order;
   } catch (error) {
     console.error('Create order exception:', error);
@@ -160,7 +222,7 @@ export const updateOrderPayment = async (
     const { error } = await supabase
       .from('orders')
       .update({
-        payment_id: paymentId,
+        razorpay_payment_id: paymentId,
         payment_status: paymentStatus,
         status: paymentStatus === 'completed' ? 'confirmed' : 'pending'
       })
@@ -216,7 +278,7 @@ export const getUserOrders = async (userId: string) => {
         addresses(*),
         order_items(
           *,
-          products(name, image_url, sellers(shop_name))
+          products(name, image_url, images, sellers(shop_name))
         )
       `)
       .eq('user_id', userId)
@@ -235,7 +297,7 @@ export const getOrderTracking = async (orderId: string) => {
       .from('order_tracking')
       .select('*')
       .eq('order_id', orderId)
-      .order('created_at', { ascending: true });
+      .order('created_at', { ascending: true});
 
     if (error) throw error;
     return data || [];

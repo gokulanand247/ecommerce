@@ -22,7 +22,7 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
       const now = new Date().toISOString();
 
       const { data, error } = await supabase
-        .from('todays_deals')
+        .from('deals')
         .select(`
           id,
           discount_percentage,
@@ -33,17 +33,13 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
             name,
             description,
             price,
-            mrp,
+            original_price,
             image_url,
             images,
-            category,
-            sizes,
-            colors,
-            stock,
+            category_id,
             stock_quantity,
             is_active,
-            seller_id,
-            average_rating
+            seller_id
           )
         `)
         .eq('is_active', true)
@@ -60,7 +56,7 @@ const TodaysDealSection: React.FC<TodaysDealSectionProps> = ({ onAddToCart, onPr
         id: deal.id,
         product_id: deal.products?.id || '',
         deal_price: deal.products ? Math.round(deal.products.price * (100 - deal.discount_percentage) / 100) : 0,
-        original_price: deal.products?.mrp || 0,
+        original_price: deal.products?.original_price || deal.products?.price || 0,
         starts_at: deal.valid_from,
         ends_at: deal.valid_until,
         is_active: true,
